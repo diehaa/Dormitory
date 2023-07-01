@@ -21,7 +21,7 @@ public class JDBCUtil {
         try {
             DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
 
-            String DB_URL = "jdbc:sqlserver://localhost:1433;database=TuyenSinhFPT;encrypt=true;trustServerCertificate=true;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+            String DB_URL = "jdbc:sqlserver://localhost:1433;database=QLKTX;encrypt=true;trustServerCertificate=true;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
             String USER_NAME = "sa";
             String PASSWORD = "Password.1";
             c = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);

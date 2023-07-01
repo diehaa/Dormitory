@@ -4,8 +4,10 @@
  */
 package controller;
 
+import database.AdminDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,6 +43,8 @@ public class Admin extends HttpServlet {
             login(request, response);
         } else if (action.equals("logout")) {
             logout(request, response);
+        }else if (action.equals("view")) {
+            view(request, response);
         }
     }
 
@@ -74,33 +78,41 @@ public class Admin extends HttpServlet {
     }
     
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final String tenDangNhap = request.getParameter("tenDangNhap");
-        String matKhau = request.getParameter("matKhau");
-        matKhau = MaHoa.toSHA1(matKhau);
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        //password = MaHoa.toSHA1(password);
 
-        final model.TaiKhoanAdmin tka = new model.TaiKhoanAdmin();
-        tka.setTenDangNhap(tenDangNhap);
-        tka.setMatKhau(matKhau);
-        final TaiKhoanAdminDAO tkad = new TaiKhoanAdminDAO();
-        final model.TaiKhoanAdmin taiKhoanAdmin = tkad.selectByUserAndPassword(tka);
+        final model.Admin admin = new model.Admin();
+        admin.setUsername(username);
+        admin.setPassword(password);
+        final AdminDAO tkad = new AdminDAO();
+        final model.Admin adminAuth = tkad.selectByUserAndPassword(admin);
         String url = "";
-        if (taiKhoanAdmin != null) {
+        if (adminAuth != null) {
             final HttpSession session = request.getSession();
-            session.setAttribute("taiKhoanAdmin", (Object) taiKhoanAdmin);
-            url = "/admin-crm.jsp";
+            session.setAttribute("adminAuth", (Object) adminAuth);
+            url = "/admin-dashboard.jsp";
         } else {
-            request.setAttribute("baoLoi", (Object) "T\u00ean \u0111\u0103ng nh\u1eadp ho\u1eb7c m\u1eadt kh\u1ea9u kh\u00f4ng \u0111\u00fang!");
+            request.setAttribute("error", (Object) "T\u00ean \u0111\u0103ng nh\u1eadp ho\u1eb7c m\u1eadt kh\u1ea9u kh\u00f4ng \u0111\u00fang!");
             url = "/admin-login.jsp";
         }
         final RequestDispatcher rd = this.getServletContext().getRequestDispatcher(url);
         rd.forward(request, response);
     }
 
-    private void dangXuat(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         //huỷ bỏ ssession
         session.invalidate();
         response.sendRedirect("admin-login.jsp");
+    }
+    
+    protected void view(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        AdminDAO admin = new AdminDAO();
+        ArrayList<model.Admin> list = admin.getListTaiKhoanAdmin();
+        request.setAttribute("data", list);
+        request.getRequestDispatcher("admin-account.jsp").forward(request, response);
     }
 
     /**

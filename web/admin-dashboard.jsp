@@ -16,14 +16,14 @@
         <meta name="author" content="" />
         <title>Dashboard | Dormitory Management </title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-        <link href="../css/styles.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     </head>
 
     <body class="sb-nav-fixed">
-        <?php include_once('includes/navbar.php'); ?>
+         <%@include file="includes/navbar.jsp" %>
         <div id="layoutSidenav">
-            <?php include_once('includes/sidebar.php'); ?>
+            <%@include file="includes/sidebar.jsp" %>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
