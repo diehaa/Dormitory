@@ -172,11 +172,9 @@ public class Admin extends HttpServlet {
         if (error.length() > 0) {
             url = "/admin?action=view-account";
         } else {
-            Random rd = new Random();
-            Calendar instance = Calendar.getInstance();
-            int year = instance.get(Calendar.YEAR);
-            int adminId = year + rd.nextInt(100000);
-            model.Admin admin = new model.Admin(adminId, username, password, name, email, role, phone);
+            ArrayList<model.Admin> list = adminDAO.getListTaiKhoanAdmin();
+            int count = list.size() + 1;
+            model.Admin admin = new model.Admin(count, username, password, name, email, role, phone);
             adminDAO.insert(admin);
             url = "/admin?action=view-account";
         }
