@@ -9,6 +9,7 @@ package model;
  * @author phangiabao
  */
 public class Application {
+
     private int applicationId;
     private Users userid;
     private String title;
@@ -19,9 +20,8 @@ public class Application {
 
     public Application() {
     }
-    
-    
 
+    //hien thi chuc nang
     public Application(int applicationId, Users userid, String title, String reason, String file, String status, String comment) {
         this.applicationId = applicationId;
         this.userid = userid;
@@ -87,6 +87,5 @@ public class Application {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    
-    
+
 }
