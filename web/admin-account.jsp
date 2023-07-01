@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard | Dormitory Management </title>
+        <title>Account Manage | Dormitory Management </title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
@@ -24,6 +24,13 @@
     </head>
 
     <body class="sb-nav-fixed">
+        <%
+            String baoLoi = request.getAttribute("baoLoi") + "";
+            baoLoi = (baoLoi.equals("null")) ? "" : baoLoi;
+
+            String tenDangNhap = request.getAttribute("tenDangNhap") + "";
+            tenDangNhap = (tenDangNhap.equals("null")) ? "" : tenDangNhap;
+        %>
         <%@include file="includes/navbar.jsp" %>
         <div id="layoutSidenav">
             <%@include file="includes/sidebar.jsp" %>
@@ -31,7 +38,7 @@
                 <main>
                     <div class="container-fluid px-4">
                         <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Tạo tài khoản CBNV
+                            Add New Account
                         </button>
 
                         <!-- Modal -->
@@ -39,60 +46,64 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Tạo tài khoản CBNV</h1>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Account</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <form action="admin" method="post">
-                                            <input type="hidden" name="action" value="add"/>
+                                            <input type="hidden" name="action" value="add-account"/>
 
 
                                             <!-- CCCD input -->
                                             <div class="form-floating mb-4">
-                                                <input type="text" id="tenDangNhap" class="form-control" name="tenDangNhap" required="" value="<%=tenDangNhap%>"/>
-                                                <label class="form-label" for="tenDangNhap">Tên đăng nhập</label>
+                                                <input type="text" id="username" class="form-control" name="username" required="" value="<%=tenDangNhap%>"/>
+                                                <label class="form-label" for="username">Username</label>
                                             </div>
 
                                             <!-- Password input -->
                                             <div class="form-floating mb-4">
-                                                <input type="password" id="matKhau" class="form-control" name="matKhau" required=""/>
-                                                <label class="form-label" for="matKhau">Mật khẩu</label>
+                                                <input type="password" id="password" class="form-control" name="password" required=""/>
+                                                <label class="form-label" for="password">Password</label>
                                             </div>
                                             <div class="form-floating mb-4">
-                                                <input type="password" id="matKhauNhapLai" class="form-control" name="matKhauNhapLai" required=""onkeyup="kiemTraMatKhau()"/>
-                                                <label class="form-label" for="matKhauNhapLai">Nhập lại Mật khẩu</label>
+                                                <input type="password" id="repassword" class="form-control" name="repassword" required=""onkeyup="kiemTraMatKhau()"/>
+                                                <label class="form-label" for="repassword">Re-enter Password</label>
                                                 <span id ="thongBaoLoiMatKhau" style="color: red"></span>
                                             </div>
                                             <!--                                    Infomation-->
                                             <div class="form-floating mb-4">
                                                 <input type="text" id="hoVaTen" class="form-control" name="hoVaTen" required="" value="<%=hoVaTen%>"/>
-                                                <label class="form-label" for="hoVaTen">Họ và tên</label>
+                                                <label class="form-label" for="hoVaTen">Name</label>
                                             </div>
                                             <div class="form-floating mb-4">
-                                                <input type="email" id="emailAdmin" class="form-control" name="emailAdmin" required="" value="<%=emailAdmin%>"/>
-                                                <label class="form-label" for="emailAdmin">Email</label>
+                                                <input type="email" id="email" class="form-control" name="email" required="" value="<%=emailAdmin%>"/>
+                                                <label class="form-label" for="email">Email</label>
                                             </div>
                                             <div class="form-floating mb-4">
-                                                <select class="form-select" aria-label="Default select example" name="chucVu"required>
-                                                    <option value="Cán bộ tuyển sinh" <% if (chucVu.equals("Cán bộ tuyển sinh")) {
+                                                <select class="form-select" aria-label="Default select example" name="role"required>
+                                                    <option value="Ban Quản Lý" <% if (role.equals("Ban Quản Lý")) {
                                                             out.print("selected");
-                                                        } %> >Cán bộ tuyển sinh</option>
-                                                    <option value="Admin" <% if (chucVu.equals("Admin")) {
+                                                        } %> >Ban Quản Lý</option>
+                                                    <option value="Bảo vệ" <% if (role.equals("Bảo vệ")) {
                                                             out.print("selected");
-                                                        }%>>Admin</option>
+                                                        }%>>Bảo vệ</option>
 
 
                                                 </select>
-                                                <label class="form-label" for="chucVu">Chức vụ</label>
+                                                <label class="form-label" for="role">Role</label>
+                                            </div>
+                                            <div class="form-floating mb-4">
+                                                <input type="text" id="phone" class="form-control" name="phone" required="" value="<%=emailAdmin%>"/>
+                                                <label class="form-label" for="phone">Phone</label>
                                             </div>
 
                                             <div class="alert alert-danger" role="alert">
-                                                <%=baoLoi%>
+                                                <%=error%>
                                             </div>
                                             <!-- Submit button -->
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
                                             </div>
 
 
@@ -154,25 +165,25 @@
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script>
-                                                         function doDelete(maAdmin, tenDangNhap) {
-                                                             if (confirm("Bạn có muốn xoá " + tenDangNhap + " không?")) {
-                                                                 window.location = "tai-khoan?hanhDong=delete&maAdmin=" + maAdmin;
-                                                             }
-                                                         }
-                                                         $(document).ready(function () {
+                                            function doDelete(maAdmin, tenDangNhap) {
+                                                if (confirm("Bạn có muốn xoá " + tenDangNhap + " không?")) {
+                                                    window.location = "tai-khoan?hanhDong=delete&maAdmin=" + maAdmin;
+                                                }
+                                            }
+                                            $(document).ready(function () {
 
-                                                             $('#example').DataTable({
-                                                                 search: {
-                                                                     return: false,
-                                                                 },
-                                                                 lengthMenu: [
-                                                                     [10, 25, 50, -1],
-                                                                     [10, 25, 50, 'All'],
-                                                                 ],
-                                                                 order: [[3, 'des']],
-                                                             });
+                                                $('#example').DataTable({
+                                                    search: {
+                                                        return: false,
+                                                    },
+                                                    lengthMenu: [
+                                                        [10, 25, 50, -1],
+                                                        [10, 25, 50, 'All'],
+                                                    ],
+                                                    order: [[3, 'des']],
+                                                });
 
-                                                         });
+                                            });
         </script>
     </body>
 
