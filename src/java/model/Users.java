@@ -24,6 +24,8 @@ public class Users {
     public Users() {
     }
 
+    
+    //tao tai khoan
     public Users(int usersId, String username, String password, String name, String email, String phone, String parentName, String parentPhone) {
         this.usersId = usersId;
         this.username = username;
@@ -35,7 +37,9 @@ public class Users {
         this.parentPhone = parentPhone;
     }
 
-    public Users(int usersId, String username, String password, String name, String email, String phone, String parentName, String parentPhone, double balance, String avatar) {
+    //hien thi thong tin
+
+    public Users(int usersId, String username, String password, String name, String email, String phone, String parentName, String parentPhone, double balance, String avatar, Room roomId) {
         this.usersId = usersId;
         this.username = username;
         this.password = password;
@@ -46,13 +50,28 @@ public class Users {
         this.parentPhone = parentPhone;
         this.balance = balance;
         this.avatar = avatar;
-    }
-
-    public Users(Room roomId) {
         this.roomId = roomId;
     }
     
-
+    
+    //thay doi thong tin
+    public Users(int usersId, String name, String email, String phone, String parentName, String parentPhone, String avatar) {
+        this.usersId = usersId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.parentName = parentName;
+        this.parentPhone = parentPhone;
+        this.avatar = avatar;
+    }
+    
+    //booking
+    public Users(int usersId, Room roomId) {
+        this.usersId = usersId;
+        this.roomId = roomId;
+    }
+    
+    
     public int getUsersId() {
         return usersId;
     }
@@ -131,6 +150,14 @@ public class Users {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Room getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Room roomId) {
+        this.roomId = roomId;
     }
     
     
