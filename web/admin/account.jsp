@@ -24,9 +24,9 @@
     </head>
 
     <body class="sb-nav-fixed">
-        <?php include_once('includes/navbar.php'); ?>
+        <%@include file="includes/navbar.jsp" %>
         <div id="layoutSidenav">
-            <?php include_once('includes/sidebar.php'); ?>
+            <%@include file="includes/sidebar.jsp" %>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
@@ -43,8 +43,8 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="tai-khoan" method="post">
-                                            <input type="hidden" name="hanhDong" value="add"/>
+                                        <form action="admin" method="post">
+                                            <input type="hidden" name="action" value="add"/>
 
 
                                             <!-- CCCD input -->

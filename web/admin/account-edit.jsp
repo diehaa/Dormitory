@@ -24,9 +24,9 @@
     </head>
 
     <body class="sb-nav-fixed">
-        <?php include_once('includes/navbar.php'); ?>
+        <%@include file="includes/navbar.jsp" %>
         <div id="layoutSidenav">
-            <?php include_once('includes/sidebar.php'); ?>
+            <%@include file="includes/sidebar.jsp" %>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
@@ -34,9 +34,9 @@
 
                     <h2 class="mt-4">Cập nhật thông tin cho ${c.tenDangNhap}</h2>
                  
-                        <form method="get" action="tai-khoan">
+                        <form method="get" action="admin">
                             <div class="card-body">
-                                <input type="hidden" name="hanhDong" value="updateSubmit"/>
+                                <input type="hidden" name="action" value="updateSubmit"/>
                                 <table class="table table-bordered">
                                     
                                     <tr>
