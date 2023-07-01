@@ -31,7 +31,13 @@ public class Admin {
         this.phone = phone;
     }
     
-    
+    public Admin(int AdminId, String name, String email, String role, String phone) {
+        this.AdminId = AdminId;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.phone = phone;
+    }
 
     public Admin(int AdminId, String username, String password, String name, String email, String role, String phone, String avatar) {
         this.AdminId = AdminId;

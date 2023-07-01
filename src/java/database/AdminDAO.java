@@ -116,15 +116,13 @@ public class AdminDAO {
         int ketQua = 0;
         try {
             final Connection con = JDBCUtil.getConnection();
-            final String sql = "UPDATE admin  SET  username=?, name=?, email=?,role=?,phone=?,avatar=? WHERE adminId=?";
+            final String sql = "UPDATE admin  SET  name=?, email=?,role=?,phone=? WHERE adminId=?";
             final PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, t.getUsername());
-            st.setString(2, t.getName());
-            st.setString(3, t.getEmail());
-            st.setString(4, t.getRole());
-            st.setString(5, t.getPhone());
-            st.setString(6, t.getAvatar());
-            st.setInt(7, t.getAdminId());
+            st.setString(1, t.getName());
+            st.setString(2, t.getEmail());
+            st.setString(3, t.getRole());
+            st.setString(4, t.getPhone());
+            st.setInt(5, t.getAdminId());
             System.out.println(sql);
             ketQua = st.executeUpdate();
 

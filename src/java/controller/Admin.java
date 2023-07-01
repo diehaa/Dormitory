@@ -54,7 +54,7 @@ public class Admin extends HttpServlet {
             addAccount(request, response);
         } else if (action.equals("edit-account")) {
 //            editAccount(request, response);
-        } 
+        }
 
     }
 
@@ -117,7 +117,6 @@ public class Admin extends HttpServlet {
             request.setAttribute("error", (Object) "T\u00ean \u0111\u0103ng nh\u1eadp ho\u1eb7c m\u1eadt kh\u1ea9u kh\u00f4ng \u0111\u00fang!");
             url = "/admin-login.jsp";
         }
-
 
         final RequestDispatcher rd = this.getServletContext().getRequestDispatcher(url);
         rd.forward(request, response);
@@ -190,6 +189,32 @@ public class Admin extends HttpServlet {
         model.Admin list = admin.getListTaiKhoanAdminByIdString(adminId);
         request.setAttribute("data", list);
         request.getRequestDispatcher("admin-account-edit.jsp").forward(request, response);
+    }
+
+    protected void editAccount(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String adminId_raw = request.getParameter("adminId");
+        int adminId = Integer.parseInt(adminId_raw);
+        String username = request.getParameter("username");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String role = request.getParameter("role");
+        String phone = request.getParameter("phone");
+
+        AdminDAO adminDAO = new AdminDAO();
+        model.Admin admin = new model.Admin(adminId, name, email, role, phone);
+        adminDAO.update(admin);
+        String url = "/admin?action=view-account";
+
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+        rd.forward(request, response);
+    }
+
+    private void deleteAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String adminId = request.getParameter("adminId");
+        AdminDAO adminDAO = new AdminDAO();
+        adminDAO.delete(adminId);
+        response.sendRedirect("admin?action=view-account");
     }
 
     /**
