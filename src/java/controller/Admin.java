@@ -54,7 +54,7 @@ public class Admin extends HttpServlet {
             addAccount(request, response);
         } else if (action.equals("edit-account")) {
 //            editAccount(request, response);
-        }
+        } 
 
     }
 

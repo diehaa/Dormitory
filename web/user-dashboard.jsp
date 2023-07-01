@@ -21,9 +21,9 @@
     </head>
 
     <body class="sb-nav-fixed">
-         <%@include file="includes/navbar.jsp" %>
+         <%@include file="includes/user-navbar.jsp" %>
         <div id="layoutSidenav">
-            <%@include file="includes/sidebar.jsp" %>
+            <%@include file="includes/user-sidebar.jsp" %>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
