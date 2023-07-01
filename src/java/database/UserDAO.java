@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import static jdk.vm.ci.aarch64.AArch64.r2;
 import model.Admin;
 import model.Room;
 import model.Users;
