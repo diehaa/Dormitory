@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,11 +26,19 @@
 
     <body class="sb-nav-fixed">
         <%
-            String baoLoi = request.getAttribute("baoLoi") + "";
-            baoLoi = (baoLoi.equals("null")) ? "" : baoLoi;
+            String error = request.getAttribute("error") + "";
+            error = (error.equals("null")) ? "" : error;
 
-            String tenDangNhap = request.getAttribute("tenDangNhap") + "";
-            tenDangNhap = (tenDangNhap.equals("null")) ? "" : tenDangNhap;
+            String username = request.getAttribute("username") + "";
+            username = (username.equals("null")) ? "" : username;
+            String name = request.getAttribute("name") + "";
+            name = (name.equals("null")) ? "" : name;
+            String email = request.getAttribute("email ") + "";
+            email  = (email .equals("null")) ? "" : email ;
+            String role = request.getAttribute("role") + "";
+            role = (role.equals("null")) ? "" : role;
+            String phone = request.getAttribute("phone") + "";
+            phone = (phone.equals("null")) ? "" : phone;
         %>
         <%@include file="includes/navbar.jsp" %>
         <div id="layoutSidenav">
@@ -37,7 +46,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-primary mt-4 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Add New Account
                         </button>
 
@@ -56,13 +65,13 @@
 
                                             <!-- CCCD input -->
                                             <div class="form-floating mb-4">
-                                                <input type="text" id="username" class="form-control" name="username" required="" value="<%=tenDangNhap%>"/>
+                                                <input type="text" id="username" class="form-control" name="username" placeholder="Username" required="" value="<%=username%>"/>
                                                 <label class="form-label" for="username">Username</label>
                                             </div>
 
                                             <!-- Password input -->
                                             <div class="form-floating mb-4">
-                                                <input type="password" id="password" class="form-control" name="password" required=""/>
+                                                <input type="password" id="password" class="form-control" name="password" placeholder="Password" required=""/>
                                                 <label class="form-label" for="password">Password</label>
                                             </div>
                                             <div class="form-floating mb-4">
@@ -72,11 +81,11 @@
                                             </div>
                                             <!--                                    Infomation-->
                                             <div class="form-floating mb-4">
-                                                <input type="text" id="hoVaTen" class="form-control" name="hoVaTen" required="" value="<%=hoVaTen%>"/>
+                                                <input type="text" id="hoVaTen" class="form-control" name="name" required="" value="<%=name%>"/>
                                                 <label class="form-label" for="hoVaTen">Name</label>
                                             </div>
                                             <div class="form-floating mb-4">
-                                                <input type="email" id="email" class="form-control" name="email" required="" value="<%=emailAdmin%>"/>
+                                                <input type="email" id="email" class="form-control" name="email" required="" value="<%=email%>"/>
                                                 <label class="form-label" for="email">Email</label>
                                             </div>
                                             <div class="form-floating mb-4">
@@ -93,7 +102,7 @@
                                                 <label class="form-label" for="role">Role</label>
                                             </div>
                                             <div class="form-floating mb-4">
-                                                <input type="text" id="phone" class="form-control" name="phone" required="" value="<%=emailAdmin%>"/>
+                                                <input type="text" id="phone" class="form-control" name="phone" required="" value="<%=phone%>"/>
                                                 <label class="form-label" for="phone">Phone</label>
                                             </div>
 
@@ -116,7 +125,7 @@
                             </div>
                         </div>
                         <!-- Tại tài khoản -->
-                        <%=baoLoi%>
+                        <%=error%>
 
 
                         <table id="example" class="table table-striped table-bordered align-middle table-responsive" style="width:100%">
@@ -127,6 +136,8 @@
                             <th>FullName</th>
                             <th>Email</th>
                             <th>Role</th>
+                            <th>Phone</th>
+                            <th>Avatar</th>
 
                             <th></th>
                             </tr>
@@ -135,16 +146,15 @@
                             <c:forEach items = "${requestScope.data}" var="c">
                                 <tr class="font-chu-nho">
 
-                                    <td>${c.maAdmin}</td>
-                                    <td><a href="tai-khoan?hanhDong=update&maAdmin=${c.maAdmin}">${c.tenDangNhap}</a></td>
-                                    <td>${c.hoVaTen}</td>
-                                    <td>${c.emailAdmin}</td>
-                                    <td>${c.chucVu}</td>
-
-
+                                    <td>${c.adminId}</td>
+                                    <td><a href="admin?action=view-account-detail&adminId=${c.adminId}">${c.username}</a></td>
+                                    <td>${c.name}</td>
+                                    <td>${c.email}</td>
+                                    <td>${c.role}</td>
+                                    <td>${c.phone}</td>
+                                    <td><img src="${c.avatar}" height="100px" alt="alt"/></td>
                                     <td>
-                                        <a class="btn btn-primary" href="#" onclick="doReset('${c.maAdmin}', '${c.tenDangNhap}', '${c.emailAdmin}')" role="button">Reset password</a>
-                                        <a class="btn btn-danger" href="#" onclick="doDelete('${c.maAdmin}', '${c.tenDangNhap}')" role="button">Delete</a>
+                                        <a class="btn btn-danger" href="#" onclick="doDelete('${c.adminId}', '${c.username}')" role="button">Delete</a>
                                     </td>
 
                                 </tr>
@@ -165,9 +175,9 @@
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script>
-                                            function doDelete(maAdmin, tenDangNhap) {
-                                                if (confirm("Bạn có muốn xoá " + tenDangNhap + " không?")) {
-                                                    window.location = "tai-khoan?hanhDong=delete&maAdmin=" + maAdmin;
+                                            function doDelete(adminId, username) {
+                                                if (confirm("Do you want delete " + username + " ?")) {
+                                                    window.location = "admin?action=delete-account&adminId=" + adminId;
                                                 }
                                             }
                                             $(document).ready(function () {
@@ -180,7 +190,7 @@
                                                         [10, 25, 50, -1],
                                                         [10, 25, 50, 'All'],
                                                     ],
-                                                    order: [[3, 'des']],
+                                                    order: [[1, 'des']],
                                                 });
 
                                             });

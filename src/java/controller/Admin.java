@@ -8,6 +8,8 @@ import database.AdminDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,9 +45,16 @@ public class Admin extends HttpServlet {
             login(request, response);
         } else if (action.equals("logout")) {
             logout(request, response);
-        }else if (action.equals("view")) {
-            view(request, response);
+        }else if (action.equals("view-account")) {
+            viewAccount(request, response);
+        }else if (action.equals("view-account-detail")) {
+            viewAccountDetail(request, response);
+        }else if (action.equals("add-account")) {
+            addAccount(request, response);
+        }else if (action.equals("edit-account")) {
+            editAccount(request, response);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -107,12 +116,109 @@ public class Admin extends HttpServlet {
         response.sendRedirect("admin-login.jsp");
     }
     
-    protected void view(HttpServletRequest request, HttpServletResponse response)
+    protected void viewAccount(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AdminDAO admin = new AdminDAO();
         ArrayList<model.Admin> list = admin.getListTaiKhoanAdmin();
         request.setAttribute("data", list);
         request.getRequestDispatcher("admin-account.jsp").forward(request, response);
+    }
+    protected void addAccount(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String repassword = request.getParameter("repassword");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String role = request.getParameter("role");
+        String phone = request.getParameter("phone");
+
+        request.setAttribute("username", username);
+        request.setAttribute("name", name);
+        request.setAttribute("email", email);
+        request.setAttribute("role", role);
+        request.setAttribute("phone", phone);
+
+        String url = "";
+        String error = "";
+        AdminDAO adminDAO = new AdminDAO();
+        if (adminDAO.kiemTraTenDangNhap(username)) {
+            error += "Username already exists, please choose another username! <br>";
+        }
+
+        if (!password.equals(repassword)) {
+            error += "Password does not match!<br>";
+        } else {
+            password = MaHoa.toSHA1(password);
+        }
+
+        request.setAttribute("error", error);
+
+        if (error.length() > 0) {
+            url = "/admin?action=view-account.jsp";
+        } else {
+            Random rd = new Random();
+            Calendar instance = Calendar.getInstance();
+            int year = instance.get(Calendar.YEAR);
+            int adminId = year + rd.nextInt(100000);
+            model.Admin admin = new model.Admin(adminId, username, password, name, email, role, phone);
+            adminDAO.insert(admin);
+            url = "/admin?action=view-account.jsp";
+        }
+
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+        rd.forward(request, response);
+    }
+    
+    protected void viewAccountDetail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String adminId = request.getParameter("adminId");
+        AdminDAO admin = new AdminDAO();
+        model.Admin list = admin.getListTaiKhoanAdminByIdString(adminId);
+        request.setAttribute("data", list);
+        request.getRequestDispatcher("admin-account-edit.jsp").forward(request, response);
+    }
+    protected void editAccount(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String adminId = request.getParameter("adminId");
+        String username = request.getParameter("username");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String role = request.getParameter("role");
+        String phone = request.getParameter("phone");
+        String phone = request.getParameter("phone");
+
+        
+
+        String url = "";
+        String error = "";
+        AdminDAO adminDAO = new AdminDAO();
+        if (adminDAO.kiemTraTenDangNhap(username)) {
+            error += "Username already exists, please choose another username! <br>";
+        }
+
+        if (!password.equals(repassword)) {
+            error += "Password does not match!<br>";
+        } else {
+            password = MaHoa.toSHA1(password);
+        }
+
+        request.setAttribute("error", error);
+
+        if (error.length() > 0) {
+            url = "/admin?action=view-account.jsp";
+        } else {
+            Random rd = new Random();
+            Calendar instance = Calendar.getInstance();
+            int year = instance.get(Calendar.YEAR);
+            int adminId = year + rd.nextInt(100000);
+            model.Admin admin = new model.Admin(adminId, username, password, name, email, role, phone);
+            adminDAO.insert(admin);
+            url = "/admin?action=view-account.jsp";
+        }
+
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+        rd.forward(request, response);
     }
 
     /**

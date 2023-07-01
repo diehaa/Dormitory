@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,40 +34,50 @@
                     <div class="container-fluid px-4">
                         <c:set var="c" value="${requestScope.data}"/>
 
-                    <h2 class="mt-4">Cập nhật thông tin cho ${c.tenDangNhap}</h2>
+                    <h2 class="mt-4">Cập nhật thông tin cho ${c.username}</h2>
                  
-                        <form method="get" action="admin">
+                        <form method="post" action="admin" enctype="multipart/form-data">
                             <div class="card-body">
-                                <input type="hidden" name="action" value="updateSubmit"/>
+                                <input type="hidden" name="action" value="edit-account"/>
                                 <table class="table table-bordered">
                                     
                                     <tr>
-                                        <th>Mã Admin</th>
-                                        <td><input readonly="" class="form-control" id="maAdmin" name="maAdmin" type="text" value="${c.maAdmin}" required /></td>
+                                        <th>Admin ID</th>
+                                        <td><input readonly="" class="form-control" id="adminId" name="adminId" type="text" value="${c.adminId}" required /></td>
                                     </tr>
                                     <tr>
-                                        <th>Tên đăng nhập</th>
-                                        <td><input readonly class="form-control" id="tenDangNhap" name="tenDangNhap" type="text" value="${c.tenDangNhap}" required /></td>
+                                        <th>Username</th>
+                                        <td><input readonly class="form-control" id="username" name="username" type="text" value="${c.username}" required /></td>
                                     </tr>
                                     <tr>
-                                        <th>Họ và tên</th>
-                                        <td><input  class="form-control" id="hoVaTen" name="hoVaTen" type="text" value="${c.hoVaTen}" required /></td>
+                                        <th>Fullname</th>
+                                        <td><input  class="form-control" id="name" name="name" type="text" value="${c.name}" required /></td>
                                     </tr>
                                     <tr>
                                         <th>Email</th>
-                                        <td><input  class="form-control" id="emailAdmin" name="emailAdmin" type="text" value="${c.emailAdmin}" required /></td>
+                                        <td><input  class="form-control" id="email" name="email" type="email" value="${c.email}" required /></td>
                                     </tr>
                                     <tr>
-                                        <th>Chức vụ</th>
+                                        <th>Role</th>
                                         <td>
-                                            <select class="form-select" aria-label="Default select example" name="chucVu"required>
-                                                    <option value="Cán bộ tuyển sinh" ${c.chucVu == 'Cán bộ tuyển sinh' ? 'selected' : ''}>Cán bộ tuyển sinh</option>
-                                                    <option value="Admin" ${c.chucVu == 'Admin' ? 'selected' : ''}>Admin</option>
-
-
+                                            <select class="form-select" aria-label="Default select example" name="role"required>
+                                                    <option value="Ban Quản Lý" ${c.role == 'Ban Quản Lý' ? 'selected' : ''}>Ban Quản Lý</option>
+                                                    <option value="Bảo vệ" ${c.role == 'Bảo vệ' ? 'selected' : ''}>Bảo vệ</option>
                                                 </select>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <th>Phone</th>
+                                        <td><input  class="form-control" id="phone" name="phone" type="text" value="${c.phone}" required /></td>
+                                    </tr>
+                                     <tr>
+                                        <th>Avatar</th>
+                                        <td><input  class="form-control" id="avatar" name="avatar" type="file" required />
+                                            <br>
+                                            <img class="img-thumbnail" src="${c.avatar==null?'img/img/no-img.jpeg':c.avatar}" alt="avatar"/>
+                                        </td>
+                                    </tr>
+                                    
                                     
                                     <tr>
                                         <td colspan="4" style="text-align:center ;"><button type="submit" class="btn btn-primary btn-block">Update</button></td>
