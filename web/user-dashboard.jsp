@@ -37,7 +37,6 @@
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead class="table" style="background-color: #f27124; color: white" >
 
-                            <th>Code</th>
                             <th>Title</th>
                             <th>Post By</th>
                             <th>Date</th>
@@ -50,7 +49,6 @@
                             <c:forEach items = "${requestScope.data}" var="c">
                                 <tr class="font-chu-nho">
 
-                                    <td><%=no++%></td>
                                     <td><a href="news?action=user-news-detail&newsId=${c.newsId}">${c.title}</a></td>
                                     <td>${c.adminId}</td>
                                     <td>${c.timeCreate}</td>
@@ -86,7 +84,7 @@
                         [10, 25, 50, -1],
                         [10, 25, 50, 'All'],
                     ],
-                    order: [[1, 'asc']],
+                    order: [[1, 'desc']],
                 });
 
             });

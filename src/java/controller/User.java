@@ -6,10 +6,12 @@ package controller;
 
 import database.AdminDAO;
 import database.PaymentDAO;
+import database.RoomDAO;
 import database.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Payment;
 import model.Users;
 import util.MaHoa;
 
@@ -52,6 +55,12 @@ public class User extends HttpServlet {
             viewPayment(request, response);
         }else if (action.equals("confirm-payment")) {
             confirmPayment(request, response);
+        }else if (action.equals("view-room")) {
+            viewRoom(request, response);
+        }else if (action.equals("add-booking")) {
+            addBooking(request, response);
+        }else if (action.equals("delete-payment")) {
+            deletePayment(request, response);
         }
     }
 
@@ -159,12 +168,46 @@ public class User extends HttpServlet {
     }
     protected void confirmPayment(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String paymentId_raw = request.getParameter("paymentId");
-        int paymentId = Integer.parseInt(paymentId_raw);
-        PaymentDAO paymentDAO = new PaymentDAO();
-        model.Payment paymentDetail = paymentDAO.getPaymentDetail(paymentId);
+        String roomId = request.getParameter("roomId");
+        RoomDAO roomDAO = new RoomDAO();
+        model.Room roomDetail = roomDAO.getListRoomByIdString(roomId);
         
-        request.setAttribute("data", paymentDetail);
+        request.setAttribute("data", roomDetail);
         request.getRequestDispatcher("user-confirm-payment.jsp").forward(request, response);
+    }
+    protected void viewRoom(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RoomDAO roomDAO = new RoomDAO();
+        ArrayList<model.Room> roomList = roomDAO.getListRoom();
+        request.setAttribute("data", roomList);
+        request.getRequestDispatcher("user-booking.jsp").forward(request, response);
+    }
+    protected void addBooking(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String usersId_raw = request.getParameter("usersId");
+        int usersId = Integer.parseInt(usersId_raw);
+        String roomId_raw = request.getParameter("roomId");
+        int roomId = Integer.parseInt(roomId_raw);
+        String semester = request.getParameter("semester");
+        String total_raw = request.getParameter("total");
+        int total = Integer.parseInt(total_raw);
+        Random rd = new Random();
+        int paymentId = (int) System.currentTimeMillis() + rd.nextInt(100);
+        model.Users u1 = new model.Users();
+        u1.setUsersId(usersId);
+        model.Room r1 = new model.Room();
+        r1.setRoomId(roomId);
+        String status ="Chưa thanh toán";
+        model.Payment payment = new Payment(paymentId, u1, r1, semester, total, status);
+        PaymentDAO paymentDAO = new PaymentDAO();
+        paymentDAO.insert(payment);
+        response.sendRedirect("user?action=view-payment");
+    }
+    protected void deletePayment(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String paymentId = request.getParameter("paymentId");
+        PaymentDAO paymentDAO = new PaymentDAO();
+        paymentDAO.delete(paymentId);
+        response.sendRedirect("user?action=view-payment");
     }
 }

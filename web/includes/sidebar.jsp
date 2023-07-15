@@ -30,7 +30,7 @@
                     <div class="sb-nav-link-icon"><i class="fa fa-calendar"></i></div>
                     Manage Rooms
                 </a>
-                <a class="nav-link" href="room?action=view">
+                <a class="nav-link" href="payment?action=view-payment">
                     <div class="sb-nav-link-icon"><i class="fa fa-calendar"></i></div>
                     Manage payment
                 </a>

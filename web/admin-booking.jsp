@@ -101,7 +101,6 @@
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead class="table" style="background-color: #f27124; color: white" >
 
-                            <th>Code</th>
                             <th>Name</th>
                             <th>Type</th>
                             <th>Price</th>
@@ -117,7 +116,6 @@
                                 <c:forEach items = "${requestScope.data}" var="c">
                                     <tr class="font-chu-nho">
 
-                                        <td><%=no++%></td>
                                         <td><a href="room?action=view-detail&roomId=${c.roomId}">${c.name}</a></td>
                                         <td>${c.type}</td>
                                         <td>${c.price}</td>

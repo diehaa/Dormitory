@@ -147,7 +147,8 @@ public class UserDAO {
         }
         return ketQua;
     }
-public Users selectByEmail(Users t) {
+
+    public Users selectByEmail(Users t) {
         Users ketQua = null;
         try {
             final Connection con = JDBCUtil.getConnection();
@@ -185,6 +186,7 @@ public Users selectByEmail(Users t) {
         }
         return ketQua;
     }
+
     public int changePassword(Users t) {
         int ketQua = 0;
         try {
@@ -201,7 +203,7 @@ public Users selectByEmail(Users t) {
         }
         return ketQua;
     }
-    
+
     public ArrayList<Users> getListUserInRoom(String roomId) {
         ArrayList<Users> list = new ArrayList<>();
         String query = "select * from Users where roomId = ?";
@@ -222,6 +224,39 @@ public Users selectByEmail(Users t) {
         } catch (Exception e) {
         }
         return list;
+    }
+
+    public int updateRoom(Users t) {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE Users  SET  roomId=? WHERE usersId=?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, t.getRoomId().getRoomId());
+
+            st.setInt(2, t.getUsersId());
+
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+
+    public int resetSemester() {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE Users SET roomId = NULL";
+            final PreparedStatement st = con.prepareStatement(sql);
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
 }

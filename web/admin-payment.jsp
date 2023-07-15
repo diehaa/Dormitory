@@ -29,7 +29,7 @@
             String error = request.getAttribute("error") + "";
             error = (error.equals("null")) ? "" : error;
 
-           
+
         %>
         <%@include file="includes/navbar.jsp" %>
         <div id="layoutSidenav">
@@ -37,37 +37,36 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        
+
                         <!-- Tại tài khoản -->
                         <%=error%>
 
-                        
+
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead class="table" style="background-color: #f27124; color: white" >
 
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Type</th>
+                            <th>User</th>
+                            <th>Room</th>
+                            <th>Semester</th>
                             <th>Price</th>
-                          
+                            <th>Status</th>
+
 
                             <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                                <%
-                                    int no = 1;
-                                %>
+                           
                                 <c:forEach items = "${requestScope.data}" var="c">
                                     <tr class="font-chu-nho">
 
-                                        <td><%=no++%></td>
-                                        <td><a href="room?action=view-detail&roomId=${c.roomId}">${c.name}</a></td>
-                                        <td>${c.type}</td>
-                                        <td>${c.price}</td>
-                                       
+                                        <td>${c.userId}</td>
+                                        <td>${c.roomId}</td>
+                                        <td>${c.semester}</td>
+                                        <td>${c.total}</td>
+                                        <td>${c.status}</td>
                                         <td>
-                                            <a class="btn btn-danger" href="#" onclick="doDelete('${c.roomId}', '${c.name}')" role="button">Delete</a>
+                                            <a  ${c.status=='Thanh toán thành công' ?'hidden':''} class="btn btn-danger" href="#" onclick="doPay('${c.paymentId}', '${c.total}', '${c.userId}', '${c.roomId}')" role="button">Pay</a>
                                         </td>
 
                                     </tr>
@@ -88,9 +87,9 @@
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script>
-                                                function doDelete(roomId, name) {
-                                                    if (confirm("Do you want delete " + name + " ?")) {
-                                                        window.location = "room?action=delete&roomId=" + roomId;
+                                                function doPay(paymentId, total,userId, roomId) {
+                                                    if (confirm("Do you want to pay " + total + " ?")) {
+                                                        window.location = "payment?action=pay-booking&paymentId=" + paymentId +"&userId="+ userId + "&roomId="+roomId;
                                                     }
                                                 }
                                                 $(document).ready(function () {
@@ -103,7 +102,7 @@
                                                             [10, 25, 50, -1],
                                                             [10, 25, 50, 'All'],
                                                         ],
-                                                        order: [[1, 'asc']],
+                                                        order: [[4, 'asc']],
                                                     });
 
                                                 });

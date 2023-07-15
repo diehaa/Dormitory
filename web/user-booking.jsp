@@ -4,8 +4,11 @@
     Author     : phangiabao
 --%>
 
+<%@page import="java.text.NumberFormat"%>
+<%@page import="java.util.Locale"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +18,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Account Manage | Dormitory Management </title>
+        <title>Dashboard | Dormitory Management </title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
@@ -23,52 +26,55 @@
         <script defer src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script defer src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     </head>
-
+    <%
+        String error = request.getAttribute("error") + "";
+        error = (error.equals("null")) ? "" : error;
+    %>
     <body class="sb-nav-fixed">
-        <%
-            String error = request.getAttribute("error") + "";
-            error = (error.equals("null")) ? "" : error;
-
-
-        %>
         <%@include file="includes/user-navbar.jsp" %>
         <div id="layoutSidenav">
             <%@include file="includes/user-sidebar.jsp" %>
             <div id="layoutSidenav_content">
                 <main>
-                    <div class="container-fluid px-4 mt-4">
+                    <div class="container-fluid px-4">
 
-                        <div class="alert alert-danger" role="alert">
-                            If you are in Unpaid status which means you are in the queue, please go to the Management to pay the fee to make a successful booking.
+
+                        <h2 class="mt-4">Booking Room for New Semester</h2>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <p><b>You will not be able to make a reservation if:</b></p><p>- You are in a certain room</p><p>- Room registration period has not started</p>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+
 
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead class="table" style="background-color: #f27124; color: white" >
 
-                            <th>Room</th>
-                            <th>Semester</th>
-                            <th>Total</th>
-                            <th>Status</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Slot</th>
 
-                            <th>Note</th>
                             <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                                <%                                    int no = 1;
+                                <%
+                                    int no = 1;
+                                 
                                 %>
+
                                 <c:forEach items = "${requestScope.data}" var="c">
+                                    <c:set var="d" value="${sessionScope.userAuth}"/>
                                     <tr class="font-chu-nho">
 
-                                        <td><a href="room?action=view-detail&roomId=${c.roomId}">${c.roomId}</a></td>
-                                        <td>${c.semester}</td>
-                                        <td>${c.total}</td>
-                                        <td><p ${c.status=='Chưa thanh toán' ?'class="text-danger fw-bold"':'class="text-success fw-bold"'}>${c.status}</p></td>
+                                        <td>${c.name}</td>
+                                        <td>${c.type}</td>
+                                        <td >${c.price}</td>
+                                        <td>${c.slot} / ${c.type}</td>
+
                                         <td>
-                                            <p ${c.status=='Chưa thanh toán' ?'':'hidden'}>Vui lòng thanh toán trước kỳ mới bắt đầu</p>
-                                        </td>
-                                        <td>
-                                            <a ${c.status!='Chưa thanh toán'?'hidden':''} class="btn btn-danger" href="#" onclick="doDelete('${c.paymentId}', '${c.roomId}')" role="button">Delete</a>
+                                            <a ${(c.slot=='4' && c.type=='4 BEDS' || c.slot=='6' && c.type=='6 BEDS' || d.roomId != null) ?'hidden':''} class="btn btn-primary" href="user?action=confirm-payment&roomId=${c.roomId}" role="button">Book</a>
                                         </td>
 
                                     </tr>
@@ -79,6 +85,8 @@
                             </tbody>
 
                         </table>
+
+
                     </div>
                 </main>
                 <!-- foooter -->
@@ -89,26 +97,25 @@
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script>
-                                                function doDelete(paymenId, roomId) {
-                                                    if (confirm("Do you want to cancel your reservation " + roomId + " ?")) {
-                                                        window.location = "user?action=delete-payment&paymentId=" + paymenId;
-                                                    }
-                                                }
+            function doDelete(maAdmin, tenDangNhap) {
+                if (confirm("Bạn có muốn xoá " + tenDangNhap + " không?")) {
+                    window.location = "tai-khoan?hanhDong=delete&maAdmin=" + maAdmin;
+                }
+            }
+            $(document).ready(function () {
 
-                                                $(document).ready(function () {
+                $('#example').DataTable({
+                    search: {
+                        return: false,
+                    },
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'All'],
+                    ],
+                    order: [[2, 'des']],
+                });
 
-                                                    $('#example').DataTable({
-                                                        search: {
-                                                            return: false,
-                                                        },
-                                                        lengthMenu: [
-                                                            [10, 25, 50, -1],
-                                                            [10, 25, 50, 'All'],
-                                                        ],
-                                                        order: [[1, 'asc']],
-                                                    });
-
-                                                });
+            });
         </script>
     </body>
 

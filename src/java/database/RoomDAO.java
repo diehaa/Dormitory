@@ -34,7 +34,7 @@ public class RoomDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
 
-                list.add(new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
+                list.add(new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getInt(5)));
             }
 
         } catch (Exception e) {
@@ -53,7 +53,25 @@ public class RoomDAO {
             System.out.println(sql);
             final ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                ketQua = new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                ketQua = new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getInt(5));
+            }
+
+        } catch (Exception e) {
+        }
+        return ketQua;
+    }
+    
+    public Room getListRoomByIdString(String t) {
+        Room ketQua = null;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "SELECT * FROM Room WHERE roomId=?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, t);
+            System.out.println(sql);
+            final ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                ketQua = new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getInt(5));
             }
 
         } catch (Exception e) {
@@ -102,12 +120,29 @@ public class RoomDAO {
         int ketQua = 0;
         try {
             final Connection con = JDBCUtil.getConnection();
-            final String sql = "UPDATE room  SET  roomId=?, name=?, type=?,role=?,price=? WHERE roomId=?";
+            final String sql = "UPDATE room  SET   name=?, type=?,price=? WHERE roomId=?";
             final PreparedStatement st = con.prepareStatement(sql);
-            st.setInt(1, t.getRoomId());
-            st.setString(2, t.getName());
-            st.setString(3, t.getType());
-            st.setInt(4, t.getPrice());
+            st.setString(1, t.getName());
+            st.setString(2, t.getType());
+            st.setInt(3, t.getPrice());
+st.setInt(4, t.getRoomId());
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+    public int updateSlot(Room t) {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE room  SET  slot=? WHERE roomId=?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, t.getSlot());
+           
+            st.setInt(2, t.getRoomId());
 
             System.out.println(sql);
             ketQua = st.executeUpdate();
@@ -156,6 +191,34 @@ public class RoomDAO {
         } catch (Exception e) {
         }
         return list;
+    }
+    public int incrementSlot(String roomId) {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE Room SET slot = slot + 1 WHERE roomId = ?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, roomId);
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+    public int resetSemester() {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE Room SET slot = 0";
+            final PreparedStatement st = con.prepareStatement(sql);
+        
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
   

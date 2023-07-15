@@ -112,15 +112,34 @@ public class PaymentDAO {
             final String sql = "INSERT INTO Payment (paymentId, usersId, roomId, semester, total, statuses)  VALUES (?,?,?,?,?,?)";
             final PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, t.getPaymentId());
-            st.setInt(2, t.getRoomId().getRoomId());
-            st.setInt(3, t.getUserId().getUsersId());
+            st.setInt(2, t.getUserId().getUsersId());
+            st.setInt(3, t.getRoomId().getRoomId());
+            
             st.setString(4, t.getSemester());
             st.setInt(5, t.getTotal());
-            st.setString(5, t.getStatus());
+            st.setString(6, t.getStatus());
             ketQua = st.executeUpdate();
             System.out.println("B\u1ea1n \u0111\u00e3 th\u1ef1c thi: " + sql);
             System.out.println("C\u00f3 " + ketQua + " d\u00f2ng b\u1ecb thay \u0111\u1ed5i!");
             JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+    public int updatePay(Payment t) {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE Payment  SET  statuses=? WHERE paymentId=?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, t.getStatus());
+            
+            st.setInt(2, t.getPaymentId());
+
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

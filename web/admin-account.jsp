@@ -131,7 +131,6 @@
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead class="table" style="background-color: #f27124; color: white" >
 
-                            <th>Code</th>
                             <th>Username</th>
                             <th>FullName</th>
                             <th>Email</th>
@@ -149,7 +148,6 @@
                                 <c:forEach items = "${requestScope.data}" var="c">
                                     <tr class="font-chu-nho">
 
-                                        <td><%=no++%></td>
                                         <td><a href="admin?action=view-account-detail&adminId=${c.adminId}">${c.username}</a></td>
                                         <td>${c.name}</td>
                                         <td>${c.email}</td>

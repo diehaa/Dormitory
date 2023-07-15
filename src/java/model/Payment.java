@@ -27,6 +27,12 @@ public class Payment {
         this.status = status;
     }
 
+    public Payment(int paymentId, String status) {
+        this.paymentId = paymentId;
+        this.status = status;
+    }
+    
+
     public int getPaymentId() {
         return paymentId;
     }

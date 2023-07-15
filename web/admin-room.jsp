@@ -33,7 +33,7 @@
             name = (name.equals("null")) ? "" : name;
             String type = request.getAttribute("type ") + "";
             type = (type.equals("null")) ? "" : type;
-            
+
         %>
         <%@include file="includes/navbar.jsp" %>
         <div id="layoutSidenav">
@@ -44,6 +44,8 @@
                         <button type="button" class="btn btn-primary mt-4 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Add New Room
                         </button>
+                        <a class="btn btn-primary" href="#" onclick="doReset()" role="button">Reset Semester</a>
+
 
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -74,7 +76,7 @@
                                                 </select>
                                                 <label class="form-label" for="role">Type</label>
                                             </div>
-                                            
+
 
                                             <div class="alert alert-danger" role="alert">
                                                 <%=error%>
@@ -97,15 +99,14 @@
                         <!-- Tại tài khoản -->
                         <%=error%>
 
-                        
+
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead class="table" style="background-color: #f27124; color: white" >
 
-                            <th>Code</th>
                             <th>Name</th>
                             <th>Type</th>
                             <th>Price</th>
-                          
+                            <th>Slot</th>
 
                             <th></th>
                             </tr>
@@ -117,11 +118,11 @@
                                 <c:forEach items = "${requestScope.data}" var="c">
                                     <tr class="font-chu-nho">
 
-                                        <td><%=no++%></td>
                                         <td><a href="room?action=room-detail&roomId=${c.roomId}">${c.name}</a></td>
                                         <td>${c.type}</td>
                                         <td>${c.price}</td>
-                                       
+                                        <td>${c.slot} / ${c.type}</td>
+
                                         <td>
                                             <a class="btn btn-danger" href="#" onclick="doDelete('${c.roomId}', '${c.name}')" role="button">Delete</a>
                                         </td>
@@ -147,6 +148,11 @@
                                                 function doDelete(roomId, name) {
                                                     if (confirm("Do you want delete " + name + " ?")) {
                                                         window.location = "room?action=delete&roomId=" + roomId;
+                                                    }
+                                                }
+                                                function doReset() {
+                                                    if (confirm("Do you want reset now ?")) {
+                                                        window.location = "payment?action=reset-semester";
                                                     }
                                                 }
                                                 $(document).ready(function () {

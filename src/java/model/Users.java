@@ -164,6 +164,11 @@ public class Users {
     public void setRoomId(Room roomId) {
         this.roomId = roomId;
     }
+
+    @Override
+    public String toString() {
+        return usersId+"";
+    }
     
     
 }

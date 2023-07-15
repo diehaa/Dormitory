@@ -13,6 +13,7 @@ public class Room {
     private String name;
     private String type;
     private int price;
+    private int slot;
 
     public Room() {
     }
@@ -23,6 +24,15 @@ public class Room {
         this.type = type;
         this.price = price;
     }
+
+    public Room(int roomId, String name, String type, int price, int slot) {
+        this.roomId = roomId;
+        this.name = name;
+        this.type = type;
+        this.price = price;
+        this.slot = slot;
+    }
+    
 
     public int getRoomId() {
         return roomId;
@@ -54,6 +64,19 @@ public class Room {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getSlot() {
+        return slot;
+    }
+
+    public void setSlot(int slot) {
+        this.slot = slot;
+    }
+
+    @Override
+    public String toString() {
+        return roomId +"";
     }
 
     

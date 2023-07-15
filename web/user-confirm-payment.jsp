@@ -35,24 +35,47 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <c:set var="c" value="${requestScope.data}"/>
+                        <c:set var="c" value="${sessionScope.userAuth}"/>
+                        <c:set var="d" value="${requestScope.data}"/>
 
-                        <h2 class="mt-4">Confirm payment for the transaction ${c.paymentId}</h2>
-                       
-                        <form method="post" action="payment">
+                        <h2 class="mt-4">Confirm payment for the transaction ${d.roomId}</h2>
+
+                        <form method="post" action="user">
                             <div class="card-body">
-                                <input hidden class="form-control" id="paymentId" name="paymentId" type="text" value="${c.paymentId}" />
-                                <input hidden class="form-control" id="userId" name="userId" type="text" value="${c.userId}" />
-                                <input hidden class="form-control" id="roomId" name="roomId" type="text" value="${c.roomId}" />
-                                <input hidden class="form-control" id="semester" name="semester" type="text" value="${c.semester}" />
-                                <input hidden class="form-control" id="total" name="total" type="text" value="${c.total}" />
-                                
-                                 <h4>Payment ID: ${c.paymentId}</h4>
-                                 <h4>Semester: ${c.semester}</h4>
-                                 <h4>Amount to be paid: ${c.total}</h4>
-                                 <button type="submit" class="btn btn-primary btn-block">Pay</button>
+                                <input type="hidden" name="action" value="add-booking"/>
+                                <table class="table table-bordered">
+
+                                    <tr>
+                                        <th>User ID</th>
+                                        <td><input readonly="" class="form-control" id="usersId" name="usersId" type="text" value="${c.usersId}" required /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Room ID</th>
+                                        <td><input readonly class="form-control" id="roomId" name="roomId" type="text" value="${d.roomId}" required /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Semester</th>
+                                        <td>
+                                            <select class="form-select" aria-label="Default select example" name="semester" required="">
+                                                <option selected>Choose Semester</option>
+                                                <option value="Summer 2023">Summer 2023</option>
+                                                <option value="Fall 2023">Fall 2023</option>
+                                                <option value="Spring 2024">Spring 2024</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total</th>
+                                        <td><input readonly class="form-control" id="total" name="total" type="text" value="${d.price}" required /></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="4" style="text-align:center ;"><button type="submit" class="btn btn-primary btn-block">Confirm</button></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                               
                         </form>
 
                     </div>

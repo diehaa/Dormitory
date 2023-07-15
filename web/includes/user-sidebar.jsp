@@ -17,7 +17,7 @@
                 </a>
 
 
-                <a class="nav-link" href="admin?action=view-account">
+                <a class="nav-link" href="user?action=view-room">
                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     Booking Room
                 </a>
