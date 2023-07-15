@@ -60,8 +60,8 @@
                                 <c:forEach items = "${requestScope.data}" var="c">
                                     <tr class="font-chu-nho">
 
-                                        <td>${c.userId}</td>
-                                        <td>${c.roomId}</td>
+                                        <td>${c.userId.username}</td>
+                                        <td>${c.roomId.name}</td>
                                         <td>${c.semester}</td>
                                         <td>${c.total}</td>
                                         <td>${c.status}</td>

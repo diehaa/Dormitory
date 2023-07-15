@@ -37,7 +37,7 @@
                         <div class="card mb-4">
 
                             <div class="card-body">
-                                Post by: ${c.adminId} on ${c.timeCreate}
+                                Post by: ${c.adminId.username} on ${c.timeCreate}
                                 
                             </div>
                         </div>

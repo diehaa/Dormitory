@@ -61,12 +61,12 @@
                                 <c:forEach items = "${requestScope.data}" var="c">
                                     <tr class="font-chu-nho">
 
-                                        <td><a href="news?action=news-detail&newsId=${c.newsId}">${c.title}</a></td>
-                                        <td>${c.adminId}</td>
+                                        <td><a style="text-decoration: none" href="news?action=news-detail&newsId=${c.newsId}">${c.title}</a></td>
+                                        <td>${c.adminId.username}</td>
                                         <td>${c.timeCreate}</td>
 
                                         <td>
-                                            <a class="btn btn-danger" href="#" onclick="doUpdate('${c.newsId}', '${c.title}')" role="button">Update</a>
+                                            <a class="btn btn-warning" href="#" onclick="doUpdate('${c.newsId}', '${c.title}')" role="button">Update</a>
 
                                         </td>
                                         <td>
@@ -111,7 +111,7 @@
                                                             [10, 25, 50, -1],
                                                             [10, 25, 50, 'All'],
                                                         ],
-                                                        order: [[1, 'desc']],
+                                                        order: [[2, 'desc']],
                                                     });
 
                                                 });

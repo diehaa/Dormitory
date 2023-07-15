@@ -60,7 +60,7 @@
                                 <c:forEach items = "${requestScope.data}" var="c">
                                     <tr class="font-chu-nho">
 
-                                        <td><a href="room?action=view-detail&roomId=${c.roomId}">${c.roomId}</a></td>
+                                        <td>${c.roomId.name}</td>
                                         <td>${c.semester}</td>
                                         <td>${c.total}</td>
                                         <td><p ${c.status=='Chưa thanh toán' ?'class="text-danger fw-bold"':'class="text-success fw-bold"'}>${c.status}</p></td>

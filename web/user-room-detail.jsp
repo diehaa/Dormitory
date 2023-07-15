@@ -25,30 +25,59 @@
     </head>
 
     <body class="sb-nav-fixed">
-        
+        <%
+            String error = request.getAttribute("error") + "";
+            error = (error.equals("null")) ? "" : error;
+
+            String name = request.getAttribute("name") + "";
+            name = (name.equals("null")) ? "" : name;
+            String type = request.getAttribute("type ") + "";
+            type = (type.equals("null")) ? "" : type;
+
+        %>
         <%@include file="includes/user-navbar.jsp" %>
         <div id="layoutSidenav">
             <%@include file="includes/user-sidebar.jsp" %>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4 mt-4">
-                        <c:set var="c" value="${requestScope.data}"/>
-                        <h2 class="mt-4">[FUDN] ${c.title}</h2>
-                        <div class="card mb-4">
+                        
+                        <h2>List of members in room </h2>
+                       
+                        <table id="" class="table table-striped table-bordered" style="width:100%">
+                            <thead class="table" style="background-color: #f27124; color: white" >
 
-                            <div class="card-body">
-                                Post by: ${c.adminId.username} on ${c.timeCreate}
-                                
-                            </div>
-                        </div>
-                        <div class="card mb-4">
+                            <th>Code</th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Parent Name</th>
+                            <th>Parent Phone</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <%                                    int no = 1;
+                                %>
+                                 <c:forEach items = "${requestScope.data}" var="c">
+                                    <tr class="font-chu-nho">
 
-                            <div class="card-body"><p> ${c.content}</p>
-                               
-                            </div>
-                        </div>
+                                        <td><%=no++%></td>
+                                        <td>${c.username}</td>
+                                        <td>${c.name}</td>
+                                        <td>${c.phone}</td>
+                                        <td>${c.email}</td>
+                                        <td>${c.parentName}</td>
+                                        <td>${c.parentPhone}</td> 
+                                    </tr>
+                               </c:forEach>
 
 
+
+                            </tbody>
+
+                        </table>
+                                         
                     </div>
                 </main>
                 <!-- foooter -->
@@ -59,14 +88,9 @@
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script>
-                                                function doDelete(newsId, title) {
-                                                    if (confirm("Do you want delete " + title + " ?")) {
-                                                        window.location = "news?action=delete&newsId=" + newsId;
-                                                    }
-                                                }
-                                                function doUpdate(newsId, title) {
-                                                    if (confirm("Do you want update " + title + " ?")) {
-                                                        window.location = "news?action=update&newsId=" + newsId;
+                                                function doDelete(roomId, name) {
+                                                    if (confirm("Do you want delete " + name + " ?")) {
+                                                        window.location = "room?action=delete&roomId=" + roomId;
                                                     }
                                                 }
                                                 $(document).ready(function () {

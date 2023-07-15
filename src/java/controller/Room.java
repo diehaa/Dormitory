@@ -47,6 +47,8 @@ public class Room extends HttpServlet {
             delete(request, response);
         }else if (action.equals("room-detail")) {
             roomDetail(request, response);
+        }else if (action.equals("user-room-detail")) {
+            userRoomDetail(request, response);
         }
     }
 
@@ -134,6 +136,14 @@ public class Room extends HttpServlet {
         ArrayList<model.Users> userList = userDAO.getListUserInRoom(roomId);
         request.setAttribute("data", userList);
         request.getRequestDispatcher("admin-room-detail.jsp").forward(request, response);
+    }
+    protected void userRoomDetail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String roomId = request.getParameter("roomId");
+        UserDAO userDAO = new UserDAO();
+        ArrayList<model.Users> userList = userDAO.getListUserInRoom(roomId);
+        request.setAttribute("data", userList);
+        request.getRequestDispatcher("user-room-detail.jsp").forward(request, response);
     }
 
     /**
