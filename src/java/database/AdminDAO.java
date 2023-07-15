@@ -150,6 +150,23 @@ public class AdminDAO {
         }
         return ketQua;
     }
+    public Admin selectByEmail(Admin t) {
+        Admin ketQua = null;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "SELECT * FROM admin WHERE email=?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, t.getEmail());
+            System.out.println(sql);
+            final ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                ketQua = new Admin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
+            }
+
+        } catch (Exception e) {
+        }
+        return ketQua;
+    }
 
     public boolean kiemTraTenDangNhap(final String username) {
         boolean ketQua = false;
@@ -163,6 +180,22 @@ public class AdminDAO {
             while (rs.next()) {
                 ketQua = true;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+    public int changePassword(Admin t) {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE admin  SET  password=? WHERE adminId=?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, t.getPassword());
+            st.setInt(2, t.getAdminId());
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

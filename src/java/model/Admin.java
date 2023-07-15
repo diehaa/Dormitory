@@ -50,6 +50,11 @@ public class Admin {
         this.avatar = avatar;
     }
 
+    public Admin(int AdminId, String password) {
+        this.AdminId = AdminId;
+        this.password = password;
+    }
+
     public int getAdminId() {
         return AdminId;
     }

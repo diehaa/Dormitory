@@ -12,12 +12,12 @@ public class Room {
     private int roomId;
     private String name;
     private String type;
-    private double price;
+    private int price;
 
     public Room() {
     }
 
-    public Room(int roomId, String name, String type, double price) {
+    public Room(int roomId, String name, String type, int price) {
         this.roomId = roomId;
         this.name = name;
         this.type = type;
@@ -48,11 +48,11 @@ public class Room {
         this.type = type;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

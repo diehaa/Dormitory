@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Admin;
 import model.Room;
+import model.Users;
 
 /**
  *
@@ -33,13 +34,14 @@ public class RoomDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
 
-                list.add(new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4)));
+                list.add(new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
             }
 
         } catch (Exception e) {
         }
         return list;
     }
+    
 
     public Room getListRoomById(Room t) {
         Room ketQua = null;
@@ -51,7 +53,7 @@ public class RoomDAO {
             System.out.println(sql);
             final ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                ketQua = new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4));
+                ketQua = new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
             }
 
         } catch (Exception e) {
@@ -84,7 +86,7 @@ public class RoomDAO {
             st.setInt(1, t.getRoomId());
             st.setString(2, t.getName());
             st.setString(3, t.getType());
-            st.setDouble(4, t.getPrice());
+            st.setInt(4, t.getPrice());
 
             ketQua = st.executeUpdate();
             System.out.println("B\u1ea1n \u0111\u00e3 th\u1ef1c thi: " + sql);
@@ -105,7 +107,7 @@ public class RoomDAO {
             st.setInt(1, t.getRoomId());
             st.setString(2, t.getName());
             st.setString(3, t.getType());
-            st.setDouble(4, t.getPrice());
+            st.setInt(4, t.getPrice());
 
             System.out.println(sql);
             ketQua = st.executeUpdate();
@@ -116,13 +118,14 @@ public class RoomDAO {
         return ketQua;
     }
 
-    public boolean kiemTraNameRoom(final String name) {
+    public boolean kiemTraNameRoom(final String name, String type) {
         boolean ketQua = false;
         try {
             final Connection con = JDBCUtil.getConnection();
-            final String sql = "SELECT * FROM Room WHERE name=?";
+            final String sql = "SELECT * FROM Room WHERE name=? and type=?";
             final PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, name);
+            st.setString(2, type);
             System.out.println(sql);
             final ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -132,6 +135,27 @@ public class RoomDAO {
             e.printStackTrace();
         }
         return ketQua;
+    }
+    
+    public ArrayList<Users> getUserBooing() {
+        ArrayList<Users> list = new ArrayList<>();
+        String query = "select r.roomId, r.name, r.type, u.username from Room r INNER JOIN Users u ON r.roomId = u.roomId";
+        try {
+
+            Connection conn = new JDBCUtil().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Room r1 = new Room();
+                r1.setRoomId(rs.getInt(11));
+                Room r2 = new database.RoomDAO().getListRoomById(r1);
+                list.add(new Users(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getDouble(9), rs.getString(10), r2));
+            }
+
+        } catch (Exception e) {
+        }
+        return list;
     }
 
   

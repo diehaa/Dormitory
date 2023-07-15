@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,11 +34,13 @@
             String name = request.getAttribute("name") + "";
             name = (name.equals("null")) ? "" : name;
             String email = request.getAttribute("email ") + "";
-            email  = (email .equals("null")) ? "" : email ;
-            String role = request.getAttribute("role") + "";
-            role = (role.equals("null")) ? "" : role;
+            email = (email.equals("null")) ? "" : email;
             String phone = request.getAttribute("phone") + "";
             phone = (phone.equals("null")) ? "" : phone;
+            String parentName = request.getAttribute("parentName") + "";
+            parentName = (parentName.equals("null")) ? "" : parentName;
+            String parentPhone = request.getAttribute("parentPhone") + "";
+            parentPhone = (parentPhone.equals("null")) ? "" : parentPhone;
         %>
         <%@include file="includes/navbar.jsp" %>
         <div id="layoutSidenav">
@@ -46,7 +49,7 @@
                 <main>
                     <div class="container-fluid px-4">
                         <button type="button" class="btn btn-primary mt-4 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Add New Account
+                            Add New User
                         </button>
 
                         <!-- Modal -->
@@ -54,55 +57,57 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Account</h1>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New User</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <form action="admin" method="post">
-                                            <input type="hidden" name="action" value="add-account"/>
-
-
-                                            <!-- CCCD input -->
+                                            <input type="hidden" name="action" value="add-users"/>
+                                            <!-- Username input -->
                                             <div class="form-floating mb-4">
-                                                <input type="text" id="username" class="form-control" name="username" placeholder="Username" required="" value="<%=username%>"/>
+                                                <input type="text" id="username" class="form-control" name="username" required="" value="<%=username%>" />
                                                 <label class="form-label" for="username">Username</label>
                                             </div>
 
                                             <!-- Password input -->
                                             <div class="form-floating mb-4">
-                                                <input type="password" id="password" class="form-control" name="password" placeholder="Password" required=""/>
+                                                <input type="password" id="password" class="form-control" name="password" required="" />
                                                 <label class="form-label" for="password">Password</label>
                                             </div>
+                                            <!-- Password input -->
                                             <div class="form-floating mb-4">
-                                                <input type="password" id="repassword" class="form-control" name="repassword" required=""onkeyup="kiemTraMatKhau()"/>
-                                                <label class="form-label" for="repassword">Re-enter Password</label>
-                                                <span id ="thongBaoLoiMatKhau" style="color: red"></span>
+                                                <input type="password" id="repassword" class="form-control" name="repassword" required="" />
+                                                <label class="form-label" for="repassword">Re Password</label>
                                             </div>
-                                            <!--                                    Infomation-->
+
+                                            <!-- Name input -->
                                             <div class="form-floating mb-4">
-                                                <input type="text" id="hoVaTen" class="form-control" name="hoVaTen" required="" value="<%=name%>"/>
-                                                <label class="form-label" for="hoVaTen">Name</label>
+                                                <input type="text" id="name" class="form-control" name="name" required="" value="<%=name%>"/>
+                                                <label class="form-label" for="name">Name</label>
                                             </div>
+
+                                            <!-- Email input -->
                                             <div class="form-floating mb-4">
                                                 <input type="email" id="email" class="form-control" name="email" required="" value="<%=email%>"/>
                                                 <label class="form-label" for="email">Email</label>
                                             </div>
-                                            <div class="form-floating mb-4">
-                                                <select class="form-select" aria-label="Default select example" name="role"required>
-                                                    <option value="Ban Quản Lý" <% if (role.equals("Ban Quản Lý")) {
-                                                            out.print("selected");
-                                                        } %> >Ban Quản Lý</option>
-                                                    <option value="Bảo vệ" <% if (role.equals("Bảo vệ")) {
-                                                            out.print("selected");
-                                                        }%>>Bảo vệ</option>
 
-
-                                                </select>
-                                                <label class="form-label" for="role">Role</label>
-                                            </div>
+                                            <!-- Phone input -->
                                             <div class="form-floating mb-4">
-                                                <input type="text" id="phone" class="form-control" name="phone" required="" value="<%=phone%>"/>
+                                                <input type="text" id="phone" class="form-control" name="phone" required=""value="<%=phone%>" />
                                                 <label class="form-label" for="phone">Phone</label>
+                                            </div>
+
+                                            <!-- Parent name input -->
+                                            <div class="form-floating mb-4">
+                                                <input type="text" id="parentName" class="form-control" name="parentName" value="<%=parentName%>" />
+                                                <label class="form-label" for="parentName">Parent Name</label>
+                                            </div>
+
+                                            <!-- Parent phone input -->
+                                            <div class="form-floating mb-4">
+                                                <input type="text" id="parentPhone" class="form-control" name="parentPhone" value="<%=parentPhone%>" />
+                                                <label class="form-label" for="parentPhone">Parent Phone</label>
                                             </div>
 
                                             <div class="alert alert-danger" role="alert">
@@ -127,39 +132,41 @@
                         <%=error%>
 
 
-                        <table id="example" class="table table-striped table-bordered align-middle table-responsive" style="width:100%">
-                            <thead class="table font-chu-nho text-center align-middle " style="background-color: #f27124; color: white" >
+                        <table id="example" class="table table-striped table-bordered table-responsive" style="width:100%">
+                            <thead class="table" style="background-color: #f27124; color: white" >
 
-                            <th>ID</th>
+                            <th>Code</th>
                             <th>Username</th>
                             <th>FullName</th>
                             <th>Email</th>
-                            <th>Role</th>
                             <th>Phone</th>
+                            <th>Parent Name</th>
+                            <th>Parent Phone</th>
                             <th>Avatar</th>
-
                             <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items = "${requestScope.data}" var="c">
-                                <tr class="font-chu-nho">
+                                <%
+                                    int no = 1;
+                                %>
+                                <c:forEach items = "${requestScope.data}" var="c">
+                                    <tr class="font-chu-nho">
 
-                                    <td>${c.adminId}</td>
-                                    <td><a href="admin?action=update&adminId=${c.adminId}">${c.username}</a></td>
-                                    <td>${c.name}</td>
-                                    <td>${c.email}</td>
-                                    <td>${c.role}</td>
-                                    <td>${c.phone}</td>
-                                    <td><img src="${c.avatar}" alt="alt"/></td>
-                                    <td>
-                                        
-                                        <a class="btn btn-danger" href="#" onclick="doDelete('${c.maAdmin}', '${c.tenDangNhap}')" role="button">Delete</a>
-                                    </td>
+                                        <td><%=no++%></td>
+                                        <td><a href="admin?action=view-users-detail&usersId=${c.usersId}">${c.username}</a></td>
+                                        <td>${c.name}</td>
+                                        <td>${c.email}</td>
+                                        <td>${c.phone}</td>
+                                        <td>${c.parentName}</td>
+                                        <td>${c.parentPhone}</td>
+                                        <td><img src="${c.avatar}" height="100px" alt="Avatar"/></td>
+                                        <td>
+                                            <a class="btn btn-danger" href="#" onclick="doDelete('${c.usersId}', '${c.username}')" role="button">Delete</a>
+                                        </td>
 
-                                </tr>
-                            </c:forEach>
-
+                                    </tr>
+                                </c:forEach>
 
 
                             </tbody>
@@ -175,25 +182,25 @@
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script>
-                                            function doDelete(maAdmin, tenDangNhap) {
-                                                if (confirm("Bạn có muốn xoá " + tenDangNhap + " không?")) {
-                                                    window.location = "tai-khoan?hanhDong=delete&maAdmin=" + maAdmin;
+                                                function doDelete(usersId, username) {
+                                                    if (confirm("Do you want delete " + username + " ?")) {
+                                                        window.location = "admin?action=delete-users&usersId=" + usersId;
+                                                    }
                                                 }
-                                            }
-                                            $(document).ready(function () {
+                                                $(document).ready(function () {
 
-                                                $('#example').DataTable({
-                                                    search: {
-                                                        return: false,
-                                                    },
-                                                    lengthMenu: [
-                                                        [10, 25, 50, -1],
-                                                        [10, 25, 50, 'All'],
-                                                    ],
-                                                    order: [[3, 'des']],
+                                                    $('#example').DataTable({
+                                                        search: {
+                                                            return: false,
+                                                        },
+                                                        lengthMenu: [
+                                                            [10, 25, 50, -1],
+                                                            [10, 25, 50, 'All'],
+                                                        ],
+                                                        order: [[1, 'des']],
+                                                    });
+
                                                 });
-
-                                            });
         </script>
     </body>
 

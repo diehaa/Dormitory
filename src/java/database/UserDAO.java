@@ -81,7 +81,7 @@ public class UserDAO {
         int ketQua = 0;
         try {
             final Connection con = JDBCUtil.getConnection();
-            final String sql = "INSERT INTO users (usersId, username, password, name, email, phone, parentName, parentPhone, balance, avatar)  VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            final String sql = "INSERT INTO users (usersId, username, password, name, email, phone, parentName, parentPhone, balance, avatar)  VALUES (?,?,?,?,?,?,?,?,?,?)";
             final PreparedStatement st = con.prepareStatement(sql);
 
             st.setInt(1, t.getUsersId());
@@ -109,15 +109,14 @@ public class UserDAO {
         int ketQua = 0;
         try {
             final Connection con = JDBCUtil.getConnection();
-            final String sql = "UPDATE users  SET  username=?, name=?, email=?,phone=?,parentName=?,parentPhone=?,avatar=? WHERE usersId=?";
+            final String sql = "UPDATE users  SET name=?, email=?,phone=?,parentName=?,parentPhone=? WHERE usersId=?";
             final PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, t.getUsername());
-            st.setString(2, t.getName());
-            st.setString(3, t.getEmail());
-            st.setString(4, t.getPhone());
-            st.setString(5, t.getParentName());
-            st.setString(6, t.getParentPhone());
-            st.setString(7, t.getAvatar());
+            st.setString(1, t.getName());
+            st.setString(2, t.getEmail());
+            st.setString(3, t.getPhone());
+            st.setString(4, t.getParentName());
+            st.setString(5, t.getParentPhone());
+            st.setInt(6, t.getUsersId());
             System.out.println(sql);
             ketQua = st.executeUpdate();
 
@@ -148,6 +147,26 @@ public class UserDAO {
         }
         return ketQua;
     }
+public Users selectByEmail(Users t) {
+        Users ketQua = null;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "SELECT * FROM users WHERE email=?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, t.getEmail());
+            System.out.println(sql);
+            final ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Room r1 = new Room();
+                r1.setRoomId(rs.getInt(11));
+                Room r2 = new database.RoomDAO().getListRoomById(r1);
+                ketQua = new Users(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getDouble(9), rs.getString(10), r2);
+            }
+
+        } catch (Exception e) {
+        }
+        return ketQua;
+    }
 
     public boolean kiemTraTenDangNhap(final String username) {
         boolean ketQua = false;
@@ -165,6 +184,44 @@ public class UserDAO {
             e.printStackTrace();
         }
         return ketQua;
+    }
+    public int changePassword(Users t) {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE users  SET  password=? WHERE usersId=?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, t.getPassword());
+            st.setInt(2, t.getUsersId());
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+    
+    public ArrayList<Users> getListUserInRoom(String roomId) {
+        ArrayList<Users> list = new ArrayList<>();
+        String query = "select * from Users where roomId = ?";
+        try {
+
+            Connection conn = new JDBCUtil().getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, roomId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Room r1 = new Room();
+                r1.setRoomId(rs.getInt(11));
+                Room r2 = new database.RoomDAO().getListRoomById(r1);
+                list.add(new Users(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getDouble(9), rs.getString(10), r2));
+            }
+
+        } catch (Exception e) {
+        }
+        return list;
     }
 
 }

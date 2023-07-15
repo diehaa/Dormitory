@@ -24,57 +24,47 @@
         <script defer src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script defer src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     </head>
-
+<%
+            String error = request.getAttribute("error") + "";
+            error = (error.equals("null")) ? "" : error;
+%>
     <body class="sb-nav-fixed">
-        <%@include file="includes/navbar.jsp" %>
+        <%@include file="includes/user-navbar.jsp" %>
         <div id="layoutSidenav">
-            <%@include file="includes/sidebar.jsp" %>
+            <%@include file="includes/user-sidebar.jsp" %>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <c:set var="c" value="${requestScope.data}"/>
+                        <c:set var="c" value="${sessionScope.userAuth}"/>
 
-                    <h2 class="mt-4">Cập nhật thông tin cho ${c.username}</h2>
-                 
-                        <form method="post" action="admin">
+                    <h2 class="mt-4">Change password for ${c.username}</h2>
+                 <div class="alert alert-danger" role="alert">
+                                                <%=error%>
+                                            </div>
+                        <form method="post" action="user">
                             <div class="card-body">
-                                <input type="hidden" name="action" value="edit-account"/>
+                                <input type="hidden" name="action" value="change-user-password"/>
                                 <table class="table table-bordered">
                                     
                                     <tr>
-                                        <th>Admin ID</th>
-                                        <td><input readonly="" class="form-control" id="adminId" name="adminId" type="text" value="${c.adminId}" required /></td>
+                                        <th>User ID</th>
+                                        <td><input readonly="" class="form-control" id="usersId" name="usersId" type="text" value="${c.usersId}" required /></td>
                                     </tr>
                                     <tr>
                                         <th>Username</th>
                                         <td><input readonly class="form-control" id="username" name="username" type="text" value="${c.username}" required /></td>
                                     </tr>
                                     <tr>
-                                        <th>Fullname</th>
-                                        <td><input  class="form-control" id="name" name="name" type="text" value="${c.name}" required /></td>
+                                        <th>Old password</th>
+                                        <td><input  class="form-control" id="oldpassword" name="oldpassword" type="password"  required /></td>
                                     </tr>
                                     <tr>
-                                        <th>Email</th>
-                                        <td><input  class="form-control" id="email" name="email" type="email" value="${c.email}" required /></td>
+                                        <th>New password</th>
+                                        <td><input  class="form-control" id="newpassword" name="newpassword" type="password"  required /></td>
                                     </tr>
                                     <tr>
-                                        <th>Role</th>
-                                        <td>
-                                            <select class="form-select" aria-label="Default select example" name="role"required>
-                                                    <option value="Ban Quản Lý" ${c.role == 'Ban Quản Lý' ? 'selected' : ''}>Ban Quản Lý</option>
-                                                    <option value="Bảo vệ" ${c.role == 'Bảo vệ' ? 'selected' : ''}>Bảo vệ</option>
-                                                </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Phone</th>
-                                        <td><input  class="form-control" id="phone" name="phone" type="text" value="${c.phone}" required /></td>
-                                    </tr>
-                                     <tr>
-                                        <th>Avatar</th>
-                                        <td>
-                                            <img class="img-thumbnail" src="${c.avatar==null?'img/img/no-img.jpeg':c.avatar}" alt="avatar"/>
-                                        </td>
+                                        <th>Re-input New password</th>
+                                        <td><input  class="form-control" id="renewpassword" name="renewpassword" type="password"  required /></td>
                                     </tr>
                                     
                                     

@@ -9,16 +9,20 @@ package model;
  */
 public class Payment {
     private int paymentId;
-    private Users userid;
-    private double total;
+    private Users userId;
+    private Room roomId;
+    private String semester;
+    private int total;
     private String status;
 
     public Payment() {
     }
 
-    public Payment(int paymentId, Users userid, double total, String status) {
+    public Payment(int paymentId, Users userId, Room roomId, String semester, int total, String status) {
         this.paymentId = paymentId;
-        this.userid = userid;
+        this.userId = userId;
+        this.roomId = roomId;
+        this.semester = semester;
         this.total = total;
         this.status = status;
     }
@@ -31,19 +35,35 @@ public class Payment {
         this.paymentId = paymentId;
     }
 
-    public Users getUserid() {
-        return userid;
+    public Users getUserId() {
+        return userId;
     }
 
-    public void setUserid(Users userid) {
-        this.userid = userid;
+    public void setUserId(Users userId) {
+        this.userId = userId;
     }
 
-    public double getTotal() {
+    public Room getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Room roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
+    public int getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(int total) {
         this.total = total;
     }
 
@@ -54,6 +74,9 @@ public class Payment {
     public void setStatus(String status) {
         this.status = status;
     }
+    
+
+    
     
     
 }

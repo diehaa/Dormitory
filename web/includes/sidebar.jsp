@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <div id="layoutSidenav_nav">
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
@@ -25,12 +26,20 @@
                     Manage Users
                 </a>
 
-                <a class="nav-link" href="admin?action=view-room">
+                <a class="nav-link" href="room?action=view">
                     <div class="sb-nav-link-icon"><i class="fa fa-calendar"></i></div>
                     Manage Rooms
                 </a>
+                <a class="nav-link" href="room?action=view">
+                    <div class="sb-nav-link-icon"><i class="fa fa-calendar"></i></div>
+                    Manage payment
+                </a>
+                <a class="nav-link" href="news?action=view">
+                    <div class="sb-nav-link-icon"><i class="fa fa-calendar"></i></div>
+                    Manage News
+                </a>
 
-                <a class="nav-link" href="admin?action=logout">
+                <a class="nav-link" href="login?action=logout">
                     <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
                     Signout
                 </a>

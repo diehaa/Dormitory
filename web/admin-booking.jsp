@@ -29,16 +29,11 @@
             String error = request.getAttribute("error") + "";
             error = (error.equals("null")) ? "" : error;
 
-            String username = request.getAttribute("username") + "";
-            username = (username.equals("null")) ? "" : username;
             String name = request.getAttribute("name") + "";
             name = (name.equals("null")) ? "" : name;
-            String email = request.getAttribute("email ") + "";
-            email = (email.equals("null")) ? "" : email;
-            String role = request.getAttribute("role") + "";
-            role = (role.equals("null")) ? "" : role;
-            String phone = request.getAttribute("phone") + "";
-            phone = (phone.equals("null")) ? "" : phone;
+            String type = request.getAttribute("type ") + "";
+            type = (type.equals("null")) ? "" : type;
+            
         %>
         <%@include file="includes/navbar.jsp" %>
         <div id="layoutSidenav">
@@ -47,7 +42,7 @@
                 <main>
                     <div class="container-fluid px-4">
                         <button type="button" class="btn btn-primary mt-4 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Add New Account
+                            Add New Room
                         </button>
 
                         <!-- Modal -->
@@ -55,56 +50,31 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Account</h1>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Room</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="admin" method="post">
-                                            <input type="hidden" name="action" value="add-account"/>
+                                        <form action="room" method="post">
+                                            <input type="hidden" name="action" value="add"/>
 
-
-                                            <!-- CCCD input -->
-                                            <div class="form-floating mb-4">
-                                                <input type="text" id="username" class="form-control" name="username" placeholder="Username" required="" value="<%=username%>"/>
-                                                <label class="form-label" for="username">Username</label>
-                                            </div>
-
-                                            <!-- Password input -->
-                                            <div class="form-floating mb-4">
-                                                <input type="password" id="password" class="form-control" name="password" placeholder="Password" required=""/>
-                                                <label class="form-label" for="password">Password</label>
-                                            </div>
-                                            <div class="form-floating mb-4">
-                                                <input type="password" id="repassword" class="form-control" name="repassword" placeholder="Re-enter Password" required=""onkeyup="kiemTraMatKhau()"/>
-                                                <label class="form-label" for="repassword">Re-enter Password</label>
-                                                <span id ="thongBaoLoiMatKhau" style="color: red"></span>
-                                            </div>
-                                            <!--                                    Infomation-->
                                             <div class="form-floating mb-4">
                                                 <input type="text" id="hoVaTen" class="form-control" name="name" required="" placeholder="Name" value="<%=name%>"/>
                                                 <label class="form-label" for="hoVaTen">Name</label>
                                             </div>
                                             <div class="form-floating mb-4">
-                                                <input type="email" id="email" class="form-control" name="email" required="" placeholder="Email"  value="<%=email%>"/>
-                                                <label class="form-label" for="email">Email</label>
-                                            </div>
-                                            <div class="form-floating mb-4">
-                                                <select class="form-select" aria-label="Default select example" name="role"required>
-                                                    <option value="Ban Quản Lý" <% if (role.equals("Ban Quản Lý")) {
+                                                <select class="form-select" aria-label="Default select example" name="type"required>
+                                                    <option value="6 BEDS" <% if (type.equals("6 BEDS")) {
                                                             out.print("selected");
-                                                        } %> >Ban Quản Lý</option>
-                                                    <option value="Bảo vệ" <% if (role.equals("Bảo vệ")) {
+                                                        } %> >6 BEDS</option>
+                                                    <option value="4 BEDS" <% if (type.equals("4 BEDS")) {
                                                             out.print("selected");
-                                                        }%>>Bảo vệ</option>
+                                                        }%>>4 BEDS</option>
 
 
                                                 </select>
-                                                <label class="form-label" for="role">Role</label>
+                                                <label class="form-label" for="role">Type</label>
                                             </div>
-                                            <div class="form-floating mb-4">
-                                                <input type="text" id="phone" class="form-control" placeholder="Phone" name="phone" required="" value="<%=phone%>"/>
-                                                <label class="form-label" for="phone">Phone</label>
-                                            </div>
+                                            
 
                                             <div class="alert alert-danger" role="alert">
                                                 <%=error%>
@@ -132,12 +102,10 @@
                             <thead class="table" style="background-color: #f27124; color: white" >
 
                             <th>Code</th>
-                            <th>Username</th>
-                            <th>FullName</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Phone</th>
-                            <th>Avatar</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                          
 
                             <th></th>
                             </tr>
@@ -150,14 +118,12 @@
                                     <tr class="font-chu-nho">
 
                                         <td><%=no++%></td>
-                                        <td><a href="admin?action=view-account-detail&adminId=${c.adminId}">${c.username}</a></td>
-                                        <td>${c.name}</td>
-                                        <td>${c.email}</td>
-                                        <td>${c.role}</td>
-                                        <td>${c.phone}</td>
-                                        <td><img src="${c.avatar}" height="100px" alt="alt"/></td>
+                                        <td><a href="room?action=view-detail&roomId=${c.roomId}">${c.name}</a></td>
+                                        <td>${c.type}</td>
+                                        <td>${c.price}</td>
+                                       
                                         <td>
-                                            <a class="btn btn-danger" href="#" onclick="doDelete('${c.adminId}', '${c.username}')" role="button">Delete</a>
+                                            <a class="btn btn-danger" href="#" onclick="doDelete('${c.roomId}', '${c.name}')" role="button">Delete</a>
                                         </td>
 
                                     </tr>
@@ -178,9 +144,9 @@
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script>
-                                                function doDelete(adminId, username) {
-                                                    if (confirm("Do you want delete " + username + " ?")) {
-                                                        window.location = "admin?action=delete-account&adminId=" + adminId;
+                                                function doDelete(roomId, name) {
+                                                    if (confirm("Do you want delete " + name + " ?")) {
+                                                        window.location = "room?action=delete&roomId=" + roomId;
                                                     }
                                                 }
                                                 $(document).ready(function () {
@@ -193,7 +159,7 @@
                                                             [10, 25, 50, -1],
                                                             [10, 25, 50, 'All'],
                                                         ],
-                                                        order: [[1, 'des']],
+                                                        order: [[1, 'asc']],
                                                     });
 
                                                 });

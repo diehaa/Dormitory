@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+import model.Users;
 import util.MaHoa;
 
 /**
@@ -42,11 +44,7 @@ public class Admin extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
-        if (action.equals("login")) {
-            login(request, response);
-        } else if (action.equals("logout")) {
-            logout(request, response);
-        } else if (action.equals("view-account")) {
+         if (action.equals("view-account")) {
             viewAccount(request, response);
         } else if (action.equals("view-account-detail")) {
             viewAccountDetail(request, response);
@@ -54,8 +52,24 @@ public class Admin extends HttpServlet {
             addAccount(request, response);
         } else if (action.equals("edit-account")) {
             editAccount(request, response);
-        }   else if (action.equals("delete-account")) {
+        } else if (action.equals("delete-account")) {
             deleteAccount(request, response);
+        } else if (action.equals("view-users")) {
+            viewUserAccount(request, response);
+        } else if (action.equals("view-users-detail")) {
+            viewUserAccountDetail(request, response);
+        } else if (action.equals("add-users")) {
+            addUserAccount(request, response);
+        } else if (action.equals("edit-users")) {
+            editUser(request, response);
+        } else if (action.equals("delete-users")) {
+            deleteUser(request, response);
+        } else if (action.equals("change-account-password")) {
+            changeAccountPassword(request, response);
+        }else if (action.equals("view-profile")) {
+            viewProfile(request, response);
+        }else if (action.equals("change-password")) {
+            changePassword(request, response);
         }
 
     }
@@ -89,47 +103,7 @@ public class Admin extends HttpServlet {
         processRequest(request, response);
     }
 
-    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        //password = MaHoa.toSHA1(password);
-
-        final model.Admin admin = new model.Admin();
-        admin.setUsername(username);
-        admin.setPassword(password);
-        final AdminDAO tkad = new AdminDAO();
-        final model.Admin adminAuth = tkad.selectByUserAndPassword(admin);
-
-        final model.Users user = new model.Users();
-        user.setUsername(username);
-        user.setPassword(password);
-        final UserDAO tkuser = new UserDAO();
-        final model.Users userAuth = tkuser.selectByUserAndPassword(user);
-
-        String url = "";
-        if (adminAuth != null) {
-            final HttpSession session = request.getSession();
-            session.setAttribute("adminAuth", (Object) adminAuth);
-            url = "/admin-dashboard.jsp";
-        } else if (userAuth != null) {
-            final HttpSession session = request.getSession();
-            session.setAttribute("userAuth", (Object) userAuth);
-            url = "/user-dashboard.jsp";
-        } else {
-            request.setAttribute("error", (Object) "T\u00ean \u0111\u0103ng nh\u1eadp ho\u1eb7c m\u1eadt kh\u1ea9u kh\u00f4ng \u0111\u00fang!");
-            url = "/admin-login.jsp";
-        }
-
-        final RequestDispatcher rd = this.getServletContext().getRequestDispatcher(url);
-        rd.forward(request, response);
-    }
-
-    private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        //huỷ bỏ ssession
-        session.invalidate();
-        response.sendRedirect("admin-login.jsp");
-    }
+    
 
     protected void viewAccount(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -173,9 +147,9 @@ public class Admin extends HttpServlet {
         if (error.length() > 0) {
             url = "/admin?action=view-account";
         } else {
-            ArrayList<model.Admin> list = adminDAO.getListTaiKhoanAdmin();
-            int count = list.size() + 1;
-            model.Admin admin = new model.Admin(count, username, password, name, email, role, phone);
+            Random rd = new Random();
+            int adminId = (int) System.currentTimeMillis() + rd.nextInt(100);
+            model.Admin admin = new model.Admin(adminId, username, password, name, email, role, phone);
             adminDAO.insert(admin);
             url = "/admin?action=view-account";
         }
@@ -217,6 +191,146 @@ public class Admin extends HttpServlet {
         AdminDAO adminDAO = new AdminDAO();
         adminDAO.delete(adminId);
         response.sendRedirect("admin?action=view-account");
+    }
+
+    private void viewUserAccount(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        UserDAO userDAO = new UserDAO();
+        ArrayList<Users> userList = userDAO.getListUser();
+        request.setAttribute("data", userList);
+        request.getRequestDispatcher("admin-user-account.jsp").forward(request, response);
+    }
+
+    protected void addUserAccount(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String repassword = request.getParameter("repassword");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String parentName = request.getParameter("parentName");
+        String parentPhone = request.getParameter("parentPhone");
+
+        request.setAttribute("username", username);
+        request.setAttribute("name", name);
+        request.setAttribute("email", email);
+        request.setAttribute("phone", phone);
+        request.setAttribute("parentName", parentName);
+        request.setAttribute("parentPhone", parentPhone);
+
+        String url = "";
+        String error = "";
+        UserDAO userDAO = new UserDAO();
+        if (userDAO.kiemTraTenDangNhap(username)) {
+            error += "Username already exists, please choose another username! <br>";
+        }
+
+        if (!password.equals(repassword)) {
+            error += "Password does not match!<br>";
+        } else {
+            password = MaHoa.toSHA1(password);
+        }
+
+        if (error.length() > 0) {
+            request.setAttribute("error", error);
+            url = "/admin?action=view-users";
+        } else {
+            Random rd = new Random();
+            int usersId = (int) System.currentTimeMillis() + rd.nextInt(100);
+            model.Users user = new model.Users(usersId, username, password, name, email, phone, parentName, parentPhone);
+            userDAO.insert(user);
+            url = "/admin?action=view-users";
+        }
+
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+        rd.forward(request, response);
+    }
+
+    protected void viewUserAccountDetail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int userId = Integer.parseInt(request.getParameter("usersId"));
+        UserDAO userDAO = new UserDAO();
+        Users user = new Users();
+        user.setUsersId(userId);
+        Users userAccount = userDAO.getListTaiKhoanUsersById(user);
+        request.setAttribute("data", userAccount);
+        request.getRequestDispatcher("admin-user-account-edit.jsp").forward(request, response);
+    }
+
+    protected void editUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String usersId_raw = request.getParameter("usersId");
+        int userId = Integer.parseInt(usersId_raw);
+        String username = request.getParameter("username");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String parentName = request.getParameter("parentName");
+        String parentPhone = request.getParameter("parentPhone");
+
+        UserDAO userDAO = new UserDAO();
+        Users user = new Users(userId, username, name, phone, parentName, parentPhone);
+        userDAO.update(user);
+        String url = "/admin?action=view-users";
+
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+        rd.forward(request, response);
+    }
+
+    private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String usersId = request.getParameter("usersId");
+        UserDAO userDAO = new UserDAO();
+        userDAO.delete(usersId);
+        response.sendRedirect("admin?action=view-users");
+    }
+
+    private void changeAccountPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String adminId_raw = request.getParameter("adminId");
+        int adminId = Integer.parseInt(adminId_raw);
+        String username = request.getParameter("username");
+        String oldpassword = request.getParameter("oldpassword");
+        String newpassword = request.getParameter("newpassword");
+        String renewpassword = request.getParameter("renewpassword");
+        oldpassword = MaHoa.toSHA1(oldpassword);
+
+        model.Admin admin = new model.Admin();
+        admin.setUsername(username);
+        admin.setPassword(oldpassword);
+        AdminDAO tkad = new AdminDAO();
+        model.Admin xacThucMK = tkad.selectByUserAndPassword(admin);
+
+        String error = "";
+        String url = "";
+        if (xacThucMK == null) {
+            error += "Old Password is incorect!<br>";
+        }
+        if (!newpassword.equals(renewpassword)) {
+            error += "New Password does not match!<br>";
+        } else {
+            renewpassword = MaHoa.toSHA1(renewpassword);
+        }
+        if (error.length() > 0) {
+            
+            url = "/admin-change-password.jsp";
+        } else {
+            
+            model.Admin admin1 = new model.Admin(adminId, renewpassword);
+            tkad.changePassword(admin1);
+            error += "Change password successfully!<br>";
+            url = "/admin-change-password.jsp";
+        }
+        request.setAttribute("error", error);
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+        rd.forward(request, response);
+    }
+    protected void viewProfile(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("admin-profile.jsp").forward(request, response);
+    }
+    protected void changePassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("admin-change-password.jsp").forward(request, response);
     }
 
     /**

@@ -55,14 +55,13 @@ public class Users {
     
     
     //thay doi thong tin
-    public Users(int usersId, String name, String email, String phone, String parentName, String parentPhone, String avatar) {
+    public Users(int usersId, String name, String email, String phone, String parentName, String parentPhone) {
         this.usersId = usersId;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.parentName = parentName;
         this.parentPhone = parentPhone;
-        this.avatar = avatar;
     }
     
     //booking
@@ -70,6 +69,12 @@ public class Users {
         this.usersId = usersId;
         this.roomId = roomId;
     }
+
+    public Users(int usersId, String password) {
+        this.usersId = usersId;
+        this.password = password;
+    }
+    
     
     
     public int getUsersId() {
