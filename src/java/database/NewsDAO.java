@@ -44,9 +44,6 @@ public class NewsDAO {
         }
         return list;
     }
-    
-
-    
 
     public int delete(String t) {
         int ketQua = 0;
@@ -104,6 +101,7 @@ public class NewsDAO {
         }
         return ketQua;
     }
+
     public News getNewsById(String t) {
         News ketQua = null;
         try {
@@ -114,18 +112,16 @@ public class NewsDAO {
             System.out.println(sql);
             final ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                
+
                 Admin a1 = new Admin();
                 a1.setAdminId(rs.getInt(4));
                 Admin a2 = new database.AdminDAO().getListTaiKhoanAdminById(a1);
-                ketQua = new News(rs.getInt(1), rs.getString(2), rs.getString(3), a2, rs.getDate(5));            }
+                ketQua = new News(rs.getInt(1), rs.getString(2), rs.getString(3), a2, rs.getDate(5));
+            }
 
         } catch (Exception e) {
         }
         return ketQua;
     }
 
-    
-
-  
 }

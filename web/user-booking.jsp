@@ -75,6 +75,7 @@
 
                                         <td>
                                             <a ${(c.slot=='4' && c.type=='4 BEDS' || c.slot=='6' && c.type=='6 BEDS' || d.roomId != null) ?'hidden':''} class="btn btn-primary" href="user?action=confirm-payment&roomId=${c.roomId}" role="button">Book</a>
+                                            <p ${(c.slot=='4' && c.type=='4 BEDS' || c.slot=='6' && c.type=='6 BEDS' || d.roomId != null) ?'':'hidden'} style="color: red">Unauthorized</p>
                                         </td>
 
                                     </tr>

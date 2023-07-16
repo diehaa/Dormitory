@@ -33,7 +33,7 @@
                 <main>
                     
                     <div class="container-fluid px-4 mt-4">
-                        <h2>Notification</h2>
+                        <h2><i class="fas fa-bell"></i> Notification</h2>
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead class="table" style="background-color: #f27124; color: white" >
 
@@ -49,7 +49,7 @@
                             <c:forEach items = "${requestScope.data}" var="c">
                                 <tr class="font-chu-nho">
 
-                                    <td><a style="text-decoration: none" href="news?action=user-news-detail&newsId=${c.newsId}">${c.title}</a></td>
+                                    <td><i class="fas fa-newspaper"></i> <a style="text-decoration: none" href="news?action=user-news-detail&newsId=${c.newsId}">${c.title}</a></td>
                                     <td>${c.adminId.username}</td>
                                     <td>${c.timeCreate}</td>
 

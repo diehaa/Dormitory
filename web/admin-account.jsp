@@ -136,7 +136,7 @@
                             <th>Email</th>
                             <th>Role</th>
                             <th>Phone</th>
-                            <th>Avatar</th>
+<!--                            <th>Avatar</th>-->
 
                             <th></th>
                             </tr>
@@ -153,7 +153,7 @@
                                         <td>${c.email}</td>
                                         <td>${c.role}</td>
                                         <td>${c.phone}</td>
-                                        <td><img src="${c.avatar}" height="100px" alt="alt"/></td>
+<!--                                        <td><img src="${c.avatar}" height="100px" alt="alt"/></td>-->
                                         <td>
                                             <a class="btn btn-danger" href="#" onclick="doDelete('${c.adminId}', '${c.username}')" role="button">Delete</a>
                                         </td>

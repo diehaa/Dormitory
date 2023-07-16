@@ -203,6 +203,22 @@ public class UserDAO {
         }
         return ketQua;
     }
+    public int changePasswordByEmail(Users t) {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE users  SET  password=? WHERE email=?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, t.getPassword());
+            st.setString(2, t.getEmail());
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
 
     public ArrayList<Users> getListUserInRoom(String roomId) {
         ArrayList<Users> list = new ArrayList<>();
@@ -253,6 +269,24 @@ public class UserDAO {
             final PreparedStatement st = con.prepareStatement(sql);
             System.out.println(sql);
             ketQua = st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+    public int checkOut(String t) {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE Users  SET  roomId=NULL WHERE usersId=?";
+            final PreparedStatement st = con.prepareStatement(sql);
+    
+
+            st.setString(1, t);
+
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

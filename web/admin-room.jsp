@@ -46,7 +46,6 @@
                         </button>
                         <a class="btn btn-primary" href="#" onclick="doReset()" role="button">Reset Semester</a>
 
-
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">

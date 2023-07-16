@@ -5,6 +5,7 @@
 package controller;
 
 import database.AdminDAO;
+import database.RoomDAO;
 import database.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -70,6 +71,8 @@ public class Admin extends HttpServlet {
             viewProfile(request, response);
         }else if (action.equals("change-password")) {
             changePassword(request, response);
+        }else if (action.equals("check-out")) {
+            checkOut(request, response);
         }
 
     }
@@ -331,6 +334,16 @@ public class Admin extends HttpServlet {
     protected void changePassword(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("admin-change-password.jsp").forward(request, response);
+    }
+    protected void checkOut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String usersId = request.getParameter("usersId");
+        String roomId = request.getParameter("roomId");
+        UserDAO udao = new UserDAO();
+        udao.checkOut(usersId);
+        RoomDAO rdao = new RoomDAO();
+        rdao.checkOut(roomId);
+        response.sendRedirect("admin?action=view-users");
     }
 
     /**

@@ -27,6 +27,7 @@ public class News {
         this.adminId = adminId;
         this.timeCreate = timeCreate;
     }
+    
 
     public int getNewsId() {
         return newsId;

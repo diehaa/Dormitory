@@ -146,7 +146,7 @@
                                                         </strong>
                                                     </td>
                                                     <td class="text-primary">
-                                                        <a style="text-decoration: none; color: red; font-weight: bold" href="room?action=user-room-detail&roomId=${c.roomId}">${c.roomId.name} <- Click to view the list</a> 
+                                                        <a style="text-decoration: none; color: red; font-weight: bold" href="room?action=user-room-detail&roomId=${c.roomId}">${c.roomId.name}</a> 
                                                     </td>
                                                 </tr>
 

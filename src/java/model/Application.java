@@ -12,6 +12,7 @@ public class Application {
 
     private int applicationId;
     private Users userid;
+    private Room roomid;
     private String title;
     private String reason;
     private String file;
@@ -22,15 +23,18 @@ public class Application {
     }
 
     //hien thi chuc nang
-    public Application(int applicationId, Users userid, String title, String reason, String file, String status, String comment) {
+
+    public Application(int applicationId, Users userid, Room roomid, String title, String reason, String file, String status, String comment) {
         this.applicationId = applicationId;
         this.userid = userid;
+        this.roomid = roomid;
         this.title = title;
         this.reason = reason;
         this.file = file;
         this.status = status;
         this.comment = comment;
     }
+    
 
     public int getApplicationId() {
         return applicationId;
@@ -86,6 +90,14 @@ public class Application {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Room getRoomid() {
+        return roomid;
+    }
+
+    public void setRoomid(Room roomid) {
+        this.roomid = roomid;
     }
 
 }

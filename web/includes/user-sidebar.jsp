@@ -22,8 +22,12 @@
                     Booking Room
                 </a>
                 <a class="nav-link" href="user?action=view-payment">
-                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
                     Payment
+                </a>
+                <a class="nav-link" href="application?action=view">
+                    <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
+                    Application
                 </a>
 
 

@@ -50,10 +50,14 @@ public class News extends HttpServlet {
             addNews(request, response);
         }else if (action.equals("view")) {
             view(request, response);
+        } else if (action.equals("edit")) {
+            edit(request, response);
         } else if (action.equals("delete")) {
             delete(request, response);
         } else if (action.equals("news-detail")) {
             newsDetail(request, response);
+        }else if (action.equals("edit-news-detail")) {
+            editNewsDetail(request, response);
         }else if (action.equals("user-news-detail")) {
             userNewsDetail(request, response);
         }else if (action.equals("view-dashboard")) {
@@ -119,6 +123,26 @@ public class News extends HttpServlet {
 
         response.sendRedirect("news?action=view");
     }
+    protected void edit(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String newsId_raw = request.getParameter("newsId");
+        int newsId = Integer.parseInt(newsId_raw);
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
+        String adminId_raw = request.getParameter("adminId");
+        int adminId = Integer.parseInt(adminId_raw);
+        String url = "";
+        NewsDAO newsDAO = new NewsDAO();
+        Timestamp date = new Timestamp(System.currentTimeMillis());
+        Date ngayUpdate = new Date(date.getTime());
+        
+        model.Admin a1 = new model.Admin();
+        a1.setAdminId(adminId);
+        model.News kh = new model.News(newsId, title, content, a1, ngayUpdate);
+        newsDAO.update(kh);
+
+        response.sendRedirect("news?action=view");
+    }
 
     protected void view(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -162,6 +186,14 @@ public class News extends HttpServlet {
     protected void addNews(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("admin-news.jsp").forward(request, response);
+    }
+    protected void editNewsDetail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String newsId = request.getParameter("newsId");
+        NewsDAO newsDAO = new NewsDAO();
+        model.News newsDetail = newsDAO.getNewsById(newsId);
+        request.setAttribute("data", newsDetail);
+        request.getRequestDispatcher("admin-news-edit.jsp").forward(request, response);
     }
 
 }

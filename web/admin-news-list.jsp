@@ -98,7 +98,7 @@
                                                 }
                                                 function doUpdate(newsId, title) {
                                                     if (confirm("Do you want update " + title + " ?")) {
-                                                        window.location = "news?action=update&newsId=" + newsId;
+                                                        window.location = "news?action=edit-news-detail&newsId=" + newsId;
                                                     }
                                                 }
                                                 $(document).ready(function () {

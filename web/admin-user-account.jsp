@@ -141,7 +141,8 @@
                             <th>Phone</th>
                             <th>Parent Name</th>
                             <th>Parent Phone</th>
-                            <th>Avatar</th>
+<!--                            <th>Avatar</th>-->
+                            <th>Room</th>
                             <th></th>
                             </tr>
                             </thead>
@@ -158,8 +159,10 @@
                                         <td>${c.phone}</td>
                                         <td>${c.parentName}</td>
                                         <td>${c.parentPhone}</td>
-                                        <td><img src="${c.avatar}" height="100px" alt="Avatar"/></td>
+                                        <!--<td><img src="${c.avatar}" height="100px" alt="Avatar"/></td>-->
+                                        <td>${c.roomId.name}</td>
                                         <td>
+                                            <a class="btn btn-warning" href="#" onclick="doCheckout('${c.usersId}', '${c.username}','${c.roomId}')" role="button">Checkout</a>
                                             <a class="btn btn-danger" href="#" onclick="doDelete('${c.usersId}', '${c.username}')" role="button">Delete</a>
                                         </td>
 
@@ -183,6 +186,11 @@
                                                 function doDelete(usersId, username) {
                                                     if (confirm("Do you want delete " + username + " ?")) {
                                                         window.location = "admin?action=delete-users&usersId=" + usersId;
+                                                    }
+                                                }
+                                                function doCheckout(usersId, username, roomId) {
+                                                    if (confirm("Do you want check out for " + username +" ?")) {
+                                                        window.location = "admin?action=check-out&usersId=" + usersId + "&roomId="+roomId;
                                                     }
                                                 }
                                                 $(document).ready(function () {

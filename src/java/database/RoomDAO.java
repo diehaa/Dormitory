@@ -34,14 +34,13 @@ public class RoomDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
 
-                list.add(new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getInt(5)));
+                list.add(new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5)));
             }
 
         } catch (Exception e) {
         }
         return list;
     }
-    
 
     public Room getListRoomById(Room t) {
         Room ketQua = null;
@@ -53,14 +52,14 @@ public class RoomDAO {
             System.out.println(sql);
             final ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                ketQua = new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getInt(5));
+                ketQua = new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
             }
 
         } catch (Exception e) {
         }
         return ketQua;
     }
-    
+
     public Room getListRoomByIdString(String t) {
         Room ketQua = null;
         try {
@@ -71,14 +70,13 @@ public class RoomDAO {
             System.out.println(sql);
             final ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                ketQua = new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getInt(5));
+                ketQua = new Room(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
             }
 
         } catch (Exception e) {
         }
         return ketQua;
     }
-
 
     public int delete(String t) {
         int ketQua = 0;
@@ -125,25 +123,7 @@ public class RoomDAO {
             st.setString(1, t.getName());
             st.setString(2, t.getType());
             st.setInt(3, t.getPrice());
-st.setInt(4, t.getRoomId());
-            System.out.println(sql);
-            ketQua = st.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return ketQua;
-    }
-    public int updateSlot(Room t) {
-        int ketQua = 0;
-        try {
-            final Connection con = JDBCUtil.getConnection();
-            final String sql = "UPDATE room  SET  slot=? WHERE roomId=?";
-            final PreparedStatement st = con.prepareStatement(sql);
-            st.setInt(1, t.getSlot());
-           
-            st.setInt(2, t.getRoomId());
-
+            st.setInt(4, t.getRoomId());
             System.out.println(sql);
             ketQua = st.executeUpdate();
 
@@ -171,27 +151,7 @@ st.setInt(4, t.getRoomId());
         }
         return ketQua;
     }
-    
-    public ArrayList<Users> getUserBooing() {
-        ArrayList<Users> list = new ArrayList<>();
-        String query = "select r.roomId, r.name, r.type, u.username from Room r INNER JOIN Users u ON r.roomId = u.roomId";
-        try {
 
-            Connection conn = new JDBCUtil().getConnection();
-            PreparedStatement ps = conn.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Room r1 = new Room();
-                r1.setRoomId(rs.getInt(11));
-                Room r2 = new database.RoomDAO().getListRoomById(r1);
-                list.add(new Users(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getDouble(9), rs.getString(10), r2));
-            }
-
-        } catch (Exception e) {
-        }
-        return list;
-    }
     public int incrementSlot(String roomId) {
         int ketQua = 0;
         try {
@@ -206,13 +166,28 @@ st.setInt(4, t.getRoomId());
         }
         return ketQua;
     }
+
     public int resetSemester() {
         int ketQua = 0;
         try {
             final Connection con = JDBCUtil.getConnection();
             final String sql = "UPDATE Room SET slot = 0";
             final PreparedStatement st = con.prepareStatement(sql);
-        
+
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+    public int checkOut(String roomId) {
+        int ketQua = 0;
+        try {
+            final Connection con = JDBCUtil.getConnection();
+            final String sql = "UPDATE Room SET slot = slot - 1 WHERE roomId = ?";
+            final PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, roomId);
             System.out.println(sql);
             ketQua = st.executeUpdate();
         } catch (SQLException e) {
@@ -221,5 +196,4 @@ st.setInt(4, t.getRoomId());
         return ketQua;
     }
 
-  
 }

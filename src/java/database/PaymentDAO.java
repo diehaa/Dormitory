@@ -18,6 +18,7 @@ import model.Users;
  * @author phangiabao
  */
 public class PaymentDAO {
+
     public ArrayList<Payment> getList() {
         ArrayList<Payment> list = new ArrayList<>();
         String query = "select * from Payment";
@@ -33,16 +34,17 @@ public class PaymentDAO {
                 Room r1 = new Room();
                 r1.setRoomId(rs.getInt(3));
                 Room r2 = new database.RoomDAO().getListRoomById(r1);
-                list.add(new Payment(rs.getInt(1), u2,r2, rs.getString(4), rs.getInt(5),rs.getString(6)));
+                list.add(new Payment(rs.getInt(1), u2, r2, rs.getString(4), rs.getInt(5), rs.getString(6)));
             }
 
         } catch (Exception e) {
         }
         return list;
     }
+
     public ArrayList<Payment> getListByUser(int usersId) {
         ArrayList<Payment> list = new ArrayList<>();
-        
+
         try {
 
             Connection conn = new JDBCUtil().getConnection();
@@ -57,16 +59,17 @@ public class PaymentDAO {
                 Room r1 = new Room();
                 r1.setRoomId(rs.getInt(3));
                 Room r2 = new database.RoomDAO().getListRoomById(r1);
-                list.add(new Payment(rs.getInt(1), u2,r2, rs.getString(4), rs.getInt(5),rs.getString(6)));
+                list.add(new Payment(rs.getInt(1), u2, r2, rs.getString(4), rs.getInt(5), rs.getString(6)));
             }
 
         } catch (Exception e) {
         }
         return list;
     }
+
     public Payment getPaymentDetail(int paymentId) {
         Payment list = null;
-        
+
         try {
 
             Connection conn = new JDBCUtil().getConnection();
@@ -81,14 +84,13 @@ public class PaymentDAO {
                 Room r1 = new Room();
                 r1.setRoomId(rs.getInt(3));
                 Room r2 = new database.RoomDAO().getListRoomById(r1);
-                list = (new Payment(rs.getInt(1), u2,r2, rs.getString(4), rs.getInt(5),rs.getString(6)));
+                list = (new Payment(rs.getInt(1), u2, r2, rs.getString(4), rs.getInt(5), rs.getString(6)));
             }
 
         } catch (Exception e) {
         }
         return list;
     }
-
 
     public int delete(String t) {
         int ketQua = 0;
@@ -114,7 +116,7 @@ public class PaymentDAO {
             st.setInt(1, t.getPaymentId());
             st.setInt(2, t.getUserId().getUsersId());
             st.setInt(3, t.getRoomId().getRoomId());
-            
+
             st.setString(4, t.getSemester());
             st.setInt(5, t.getTotal());
             st.setString(6, t.getStatus());
@@ -127,6 +129,7 @@ public class PaymentDAO {
         }
         return ketQua;
     }
+
     public int updatePay(Payment t) {
         int ketQua = 0;
         try {
@@ -134,7 +137,7 @@ public class PaymentDAO {
             final String sql = "UPDATE Payment  SET  statuses=? WHERE paymentId=?";
             final PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, t.getStatus());
-            
+
             st.setInt(2, t.getPaymentId());
 
             System.out.println(sql);

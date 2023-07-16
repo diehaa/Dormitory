@@ -150,6 +150,7 @@ public class AdminDAO {
         }
         return ketQua;
     }
+
     public Admin selectByEmail(Admin t) {
         Admin ketQua = null;
         try {
@@ -185,6 +186,7 @@ public class AdminDAO {
         }
         return ketQua;
     }
+
     public int changePassword(Admin t) {
         int ketQua = 0;
         try {

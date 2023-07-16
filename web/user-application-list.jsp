@@ -31,42 +31,36 @@
 
 
         %>
-        <%@include file="includes/navbar.jsp" %>
+        <%@include file="includes/user-navbar.jsp" %>
         <div id="layoutSidenav">
-            <%@include file="includes/sidebar.jsp" %>
+            <%@include file="includes/user-sidebar.jsp" %>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4 mt-4">
-                        <h3>Payment</h3>
-                        <!-- Tại tài khoản -->
-                        <%=error%>
+                        <a class="btn btn-primary" href="application?action=view-to-add" role="button">Add new Notification</a>
 
 
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead class="table" style="background-color: #f27124; color: white" >
 
-                            <th>User</th>
                             <th>Room</th>
-                            <th>Semester</th>
-                            <th>Price</th>
+                            <th>Title</th>
                             <th>Status</th>
-
-
                             <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                           
+                                <%                                    int no = 1;
+                                %>
                                 <c:forEach items = "${requestScope.data}" var="c">
                                     <tr class="font-chu-nho">
 
-                                        <td>${c.userId.username}</td>
-                                        <td>${c.roomId.name}</td>
-                                        <td>${c.semester}</td>
-                                        <td>${c.total}</td>
-                                        <td>${c.status}</td>
+                                        <td>${c.roomid.name}</td>
+                                        <td>${c.title}</td>
+                                        <td><p ${c.status=='Từ chối' ?'class="text-danger fw-bold"':'class="text-success fw-bold"'}>${c.status}</p></td>
+
                                         <td>
-                                            <a  ${c.status=='Thanh toán thành công' ?'hidden':''} class="btn btn-danger" href="#" onclick="doPay('${c.paymentId}', '${c.total}', '${c.userId}', '${c.roomId}')" role="button">Pay</a>
+                                            <a ${c.status!='Mới'?'hidden':''} class="btn btn-danger" href="#" onclick="doDelete('${c.applicationId}')" role="button">Delete</a>
                                         </td>
 
                                     </tr>
@@ -87,11 +81,12 @@
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script>
-                                                function doPay(paymentId, total,userId, roomId) {
-                                                    if (confirm("Do you want to pay " + total + " ?")) {
-                                                        window.location = "payment?action=pay-booking&paymentId=" + paymentId +"&userId="+ userId + "&roomId="+roomId;
+                                                function doDelete(applicationId) {
+                                                    if (confirm("Do you want to cancel your reservation " + roomId + " ?")) {
+                                                        window.location = "application?action=cancel&applicationid=" + applicationId;
                                                     }
                                                 }
+
                                                 $(document).ready(function () {
 
                                                     $('#example').DataTable({
@@ -102,7 +97,7 @@
                                                             [10, 25, 50, -1],
                                                             [10, 25, 50, 'All'],
                                                         ],
-                                                        order: [[4, 'asc']],
+                                                        order: [[1, 'asc']],
                                                     });
 
                                                 });
