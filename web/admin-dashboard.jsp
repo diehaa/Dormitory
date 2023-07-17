@@ -37,7 +37,7 @@
                     <div class="row">
 
                         <div class="col-md-12">
-                            <img class=" fixed-bottom align-items-center" src="https://www.washingtonpost.com/creativegroup/jpmc/laying-a-foundation-for-opportunity-with-affordable-housing/media/h-bg.png" width="100%" height="" alt="alt"/>
+                            <img class=" fixed-bottom align-items-center" src="img/bg-desktop.png" width="100%" height="" alt="alt"/>
                         </div>
                     </div>
 

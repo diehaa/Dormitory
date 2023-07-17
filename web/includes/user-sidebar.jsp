@@ -25,10 +25,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
                     Payment
                 </a>
-                <a class="nav-link" href="application?action=view">
+<!--                <a class="nav-link" href="application?action=view">
                     <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
                     Application
-                </a>
+                </a>-->
 
 
                 <a class="nav-link" href="login?action=logout">

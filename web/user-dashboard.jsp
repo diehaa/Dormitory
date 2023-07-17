@@ -35,35 +35,39 @@
 
                         <div class="container-fluid px-4 mt-4">
                             <h2><i class="fas fa-bell"></i> Notification</h2>
-                            <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                <thead class="table" style="background-color: #f27124; color: white" >
 
-                                <th>Title</th>
-                                <th>Post By</th>
-                                <th>Date</th>
+                            <div class="">
+                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                    <thead class="table" style="background-color: #f27124; color: white" >
 
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <%                                    int no = 1;
-                                    %>
-                                    <c:forEach items = "${requestScope.data}" var="c">
-                                        <tr class="font-chu-nho">
+                                    <th>Title</th>
+                                    <th>Post By</th>
+                                    <th>Date</th>
 
-                                            <td><i class="fas fa-newspaper"></i> <a style="text-decoration: none" href="news?action=user-news-detail&newsId=${c.newsId}">${c.title}</a></td>
-                                            <td>${c.adminId.username}</td>
-                                            <td>${c.timeCreate}</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%                                    int no = 1;
+                                        %>
+                                        <c:forEach items = "${requestScope.data}" var="c">
+                                            <tr class="font-chu-nho">
 
-
-
-                                        </tr>
-                                    </c:forEach>
+                                                <td><i class="fas fa-newspaper"></i> <a style="text-decoration: none" href="news?action=user-news-detail&newsId=${c.newsId}">${c.title}</a></td>
+                                                <td>${c.adminId.username}</td>
+                                                <td>${c.timeCreate}</td>
 
 
 
-                                </tbody>
+                                            </tr>
+                                        </c:forEach>
 
-                            </table>
+
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
 
                         </div>
                     </main>
