@@ -67,7 +67,7 @@
                                             <td>${c.total}</td>
                                             <td>${c.status}</td>
                                             <td>
-                                                <a  ${c.status=='Thanh toán thành công' ?'hidden':''} class="btn btn-danger" href="#" onclick="doPay('${c.paymentId}', '${c.total}', '${c.userId}', '${c.roomId}')" role="button">Pay</a>
+                                                <a  ${c.status=='Thanh toán thành công' ?'hidden':''} class="btn btn-danger" href="#" onclick="doPay('${c.paymentId}', '${c.total}', '${c.userId}', '${c.roomId}', '${c.userId.email}')" role="button">Pay</a>
                                             </td>
 
                                         </tr>
@@ -88,9 +88,9 @@
             <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
             <script>
-                                                    function doPay(paymentId, total, userId, roomId) {
+                                                    function doPay(paymentId, total, userId, roomId, email) {
                                                         if (confirm("Do you want to pay " + total + " ?")) {
-                                                            window.location = "payment?action=pay-booking&paymentId=" + paymentId + "&userId=" + userId + "&roomId=" + roomId;
+                                                            window.location = "payment?action=pay-booking&paymentId=" + paymentId + "&userId=" + userId + "&roomId=" + roomId+ "&email=" + email;
                                                         }
                                                     }
                                                     $(document).ready(function () {

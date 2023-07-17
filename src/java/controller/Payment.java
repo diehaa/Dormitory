@@ -97,6 +97,7 @@ public class Payment extends HttpServlet {
         int userId = Integer.parseInt(userId_raw);
         String roomId_raw = request.getParameter("roomId");
         int roomId = Integer.parseInt(roomId_raw);
+        String email = request.getParameter("email");
         PaymentDAO paymentDAO = new PaymentDAO();
         String status = "Thanh toán thành công";
         model.Payment p = new model.Payment(paymentId, status);
@@ -111,11 +112,9 @@ public class Payment extends HttpServlet {
         
         RoomDAO rdao = new RoomDAO();
         rdao.incrementSlot(roomId_raw);
-        
-        String url = "/payment?action=view-payment";
-        
-        RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
-        rd.forward(request, response);
+        String message ="Hello%2C%0D%0AYou+have+successfully+paid+the+dormitory+deposit+on+the+system%0D%0ABest+regards%2C%0D%0AFPT+Education";
+        response.sendRedirect("send?email="+email+"&message="+message);
+
     }
 
     protected void viewPayment(HttpServletRequest request, HttpServletResponse response)

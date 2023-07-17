@@ -76,7 +76,7 @@ public class SendMail extends HttpServlet {
         });
         String error="";
         String email = request.getParameter("email");
-        String subject = request.getParameter("subject");
+        String subject = "FPT Edu: You have successfully paid";
         String message = request.getParameter("message");
         
         try {
@@ -91,7 +91,7 @@ public class SendMail extends HttpServlet {
             
         } catch (Exception e) {
         }
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("payment?action=view-payment");
         
     }
 
