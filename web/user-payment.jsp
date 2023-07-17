@@ -23,93 +23,102 @@
         <script defer src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script defer src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     </head>
+    <c:if test="${sessionScope.userAuth!=null}">
 
-    <body class="sb-nav-fixed">
-        <%
-            String error = request.getAttribute("error") + "";
-            error = (error.equals("null")) ? "" : error;
+        <body class="sb-nav-fixed">
+            <%
+                String error = request.getAttribute("error") + "";
+                error = (error.equals("null")) ? "" : error;
 
 
-        %>
-        <%@include file="includes/user-navbar.jsp" %>
-        <div id="layoutSidenav">
-            <%@include file="includes/user-sidebar.jsp" %>
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4 mt-4">
+            %>
+            <%@include file="includes/user-navbar.jsp" %>
+            <div id="layoutSidenav">
+                <%@include file="includes/user-sidebar.jsp" %>
+                <div id="layoutSidenav_content">
+                    <main>
+                        <div class="container-fluid px-4 mt-4">
 
-                        <div class="alert alert-danger" role="alert">
-                            If you are in Unpaid status which means you are in the queue, please go to the Management to pay the fee to make a successful booking.
+                            <div class="alert alert-danger" role="alert">
+                                If you are in Unpaid status which means you are in the queue, please go to the Management to pay the fee to make a successful booking.
+                            </div>
+
+                            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                <thead class="table" style="background-color: #f27124; color: white" >
+
+                                <th>Room</th>
+                                <th>Semester</th>
+                                <th>Total</th>
+                                <th>Status</th>
+
+                                <th>Note</th>
+                                <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <%                                    int no = 1;
+                                    %>
+                                    <c:forEach items = "${requestScope.data}" var="c">
+                                        <tr class="font-chu-nho">
+
+                                            <td>${c.roomId.name}</td>
+                                            <td>${c.semester}</td>
+                                            <td>${c.total}</td>
+                                            <td><p ${c.status=='Chưa thanh toán' ?'class="text-danger fw-bold"':'class="text-success fw-bold"'}>${c.status}</p></td>
+                                            <td>
+                                                <p ${c.status=='Chưa thanh toán' ?'':'hidden'}>Vui lòng thanh toán trước kỳ mới bắt đầu</p>
+                                            </td>
+                                            <td>
+                                                <a ${c.status!='Chưa thanh toán'?'hidden':''} class="btn btn-danger" href="#" onclick="doDelete('${c.paymentId}', '${c.roomId}')" role="button">Delete</a>
+                                            </td>
+
+                                        </tr>
+                                    </c:forEach>
+
+
+
+                                </tbody>
+
+                            </table>
                         </div>
-
-                        <table id="example" class="table table-striped table-bordered" style="width:100%">
-                            <thead class="table" style="background-color: #f27124; color: white" >
-
-                            <th>Room</th>
-                            <th>Semester</th>
-                            <th>Total</th>
-                            <th>Status</th>
-
-                            <th>Note</th>
-                            <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <%                                    int no = 1;
-                                %>
-                                <c:forEach items = "${requestScope.data}" var="c">
-                                    <tr class="font-chu-nho">
-
-                                        <td>${c.roomId.name}</td>
-                                        <td>${c.semester}</td>
-                                        <td>${c.total}</td>
-                                        <td><p ${c.status=='Chưa thanh toán' ?'class="text-danger fw-bold"':'class="text-success fw-bold"'}>${c.status}</p></td>
-                                        <td>
-                                            <p ${c.status=='Chưa thanh toán' ?'':'hidden'}>Vui lòng thanh toán trước kỳ mới bắt đầu</p>
-                                        </td>
-                                        <td>
-                                            <a ${c.status!='Chưa thanh toán'?'hidden':''} class="btn btn-danger" href="#" onclick="doDelete('${c.paymentId}', '${c.roomId}')" role="button">Delete</a>
-                                        </td>
-
-                                    </tr>
-                                </c:forEach>
-
-
-
-                            </tbody>
-
-                        </table>
-                    </div>
-                </main>
-                <!-- foooter -->
+                    </main>
+                    <!-- foooter -->
+                </div>
             </div>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-        <script>
-                                                function doDelete(paymenId, roomId) {
-                                                    if (confirm("Do you want to cancel your reservation " + roomId + " ?")) {
-                                                        window.location = "user?action=delete-payment&paymentId=" + paymenId;
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+            <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+            <script>
+                                                    function doDelete(paymenId, roomId) {
+                                                        if (confirm("Do you want to cancel your reservation " + roomId + " ?")) {
+                                                            window.location = "user?action=delete-payment&paymentId=" + paymenId;
+                                                        }
                                                     }
-                                                }
 
-                                                $(document).ready(function () {
+                                                    $(document).ready(function () {
 
-                                                    $('#example').DataTable({
-                                                        search: {
-                                                            return: false,
-                                                        },
-                                                        lengthMenu: [
-                                                            [10, 25, 50, -1],
-                                                            [10, 25, 50, 'All'],
-                                                        ],
-                                                        order: [[1, 'asc']],
+                                                        $('#example').DataTable({
+                                                            search: {
+                                                                return: false,
+                                                            },
+                                                            lengthMenu: [
+                                                                [10, 25, 50, -1],
+                                                                [10, 25, 50, 'All'],
+                                                            ],
+                                                            order: [[1, 'asc']],
+                                                        });
+
                                                     });
+            </script>
+        </body>
+    </c:if>
+    <c:if test="${sessionScope.userAuth==null}">
+        <div class="alert alert-danger container mt-4" role="alert">
+            <h2>You are not logged into the system!</h2>
 
-                                                });
-        </script>
-    </body>
+            <a href="login.jsp">Login in here!</a>
+        </div>
+    </c:if>
 
 </html>

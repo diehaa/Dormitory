@@ -24,89 +24,98 @@
         <script defer src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script defer src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     </head>
-<%
-            String error = request.getAttribute("error") + "";
-            error = (error.equals("null")) ? "" : error;
-%>
-    <body class="sb-nav-fixed">
-        <%@include file="includes/navbar.jsp" %>
-        <div id="layoutSidenav">
-            <%@include file="includes/sidebar.jsp" %>
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                        <c:set var="c" value="${sessionScope.adminAuth}"/>
+    <%
+        String error = request.getAttribute("error") + "";
+        error = (error.equals("null")) ? "" : error;
+    %>
+    <c:if test="${sessionScope.adminAuth!=null}">
 
-                    <h2 class="mt-4">Change password for ${c.username}</h2>
-                 <div class="alert alert-danger" role="alert">
-                                                <%=error%>
-                                            </div>
-                        <form method="post" action="admin">
-                            <div class="card-body">
-                                <input type="hidden" name="action" value="change-account-password"/>
-                                <table class="table table-bordered">
-                                    
-                                    <tr>
-                                        <th>Admin ID</th>
-                                        <td><input readonly="" class="form-control" id="adminId" name="adminId" type="text" value="${c.adminId}" required /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Username</th>
-                                        <td><input readonly class="form-control" id="username" name="username" type="text" value="${c.username}" required /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Old password</th>
-                                        <td><input  class="form-control" id="oldpassword" name="oldpassword" type="password"  required /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>New password</th>
-                                        <td><input  class="form-control" id="newpassword" name="newpassword" type="password"  required /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Re-input New password</th>
-                                        <td><input  class="form-control" id="renewpassword" name="renewpassword" type="password"  required /></td>
-                                    </tr>
-                                    
-                                    
-                                    <tr>
-                                        <td colspan="4" style="text-align:center ;"><button type="submit" class="btn btn-primary btn-block">Update</button></td>
+        <body class="sb-nav-fixed">
+            <%@include file="includes/navbar.jsp" %>
+            <div id="layoutSidenav">
+                <%@include file="includes/sidebar.jsp" %>
+                <div id="layoutSidenav_content">
+                    <main>
+                        <div class="container-fluid px-4">
+                            <c:set var="c" value="${sessionScope.adminAuth}"/>
 
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <h2 class="mt-4">Change password for ${c.username}</h2>
+                            <div class="alert alert-danger" role="alert">
+                                <%=error%>
                             </div>
-                        </form>
-                 
-                    </div>
-                </main>
-                <!-- foooter -->
+                            <form method="post" action="admin">
+                                <div class="card-body">
+                                    <input type="hidden" name="action" value="change-account-password"/>
+                                    <table class="table table-bordered">
+
+                                        <tr>
+                                            <th>Admin ID</th>
+                                            <td><input readonly="" class="form-control" id="adminId" name="adminId" type="text" value="${c.adminId}" required /></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Username</th>
+                                            <td><input readonly class="form-control" id="username" name="username" type="text" value="${c.username}" required /></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Old password</th>
+                                            <td><input  class="form-control" id="oldpassword" name="oldpassword" type="password"  required /></td>
+                                        </tr>
+                                        <tr>
+                                            <th>New password</th>
+                                            <td><input  class="form-control" id="newpassword" name="newpassword" type="password"  required /></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Re-input New password</th>
+                                            <td><input  class="form-control" id="renewpassword" name="renewpassword" type="password"  required /></td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td colspan="4" style="text-align:center ;"><button type="submit" class="btn btn-primary btn-block">Update</button></td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+
+                        </div>
+                    </main>
+                    <!-- foooter -->
+                </div>
             </div>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+            <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+            <script>
+                function doDelete(maAdmin, tenDangNhap) {
+                    if (confirm("Bạn có muốn xoá " + tenDangNhap + " không?")) {
+                        window.location = "tai-khoan?hanhDong=delete&maAdmin=" + maAdmin;
+                    }
+                }
+                $(document).ready(function () {
+
+                    $('#example').DataTable({
+                        search: {
+                            return: false,
+                        },
+                        lengthMenu: [
+                            [10, 25, 50, -1],
+                            [10, 25, 50, 'All'],
+                        ],
+                        order: [[3, 'des']],
+                    });
+
+                });
+            </script>
+        </body>
+    </c:if>
+    <c:if test="${sessionScope.adminAuth==null}">
+        <div class="alert alert-danger container mt-4" role="alert">
+            <h2>You are not logged into the system!</h2>
+
+            <a href="login.jsp">Login in here!</a>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-        <script>
-                                                         function doDelete(maAdmin, tenDangNhap) {
-                                                             if (confirm("Bạn có muốn xoá " + tenDangNhap + " không?")) {
-                                                                 window.location = "tai-khoan?hanhDong=delete&maAdmin=" + maAdmin;
-                                                             }
-                                                         }
-                                                         $(document).ready(function () {
-
-                                                             $('#example').DataTable({
-                                                                 search: {
-                                                                     return: false,
-                                                                 },
-                                                                 lengthMenu: [
-                                                                     [10, 25, 50, -1],
-                                                                     [10, 25, 50, 'All'],
-                                                                 ],
-                                                                 order: [[3, 'des']],
-                                                             });
-
-                                                         });
-        </script>
-    </body>
-
+    </c:if>
 </html>
